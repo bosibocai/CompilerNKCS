@@ -11,10 +11,11 @@ enum class ASTNodeType
     stmt=4,
     exp=5,//表达式
     op=6,//操作符，包括
-    defVar=7,
-    assignVar=8,
+    defVar=7,//声明变量
+    assignVar=8,//赋值语句中的变量
     loop=9,//循环
     conditional=10,//条件
+    literal=11,//字面量
 
 };
 
@@ -28,7 +29,8 @@ class ASTNode
     
     protected:
         std::string content;
-        //__printTree
+        //打印当前节点
+        static void printSelf(ASTNode *selfNode,int depth);
     
     public:
         ASTNode(){};
@@ -43,6 +45,7 @@ class ASTNode
         void addChildNode(ASTNode* childNode);
         void addBrother(ASTNode* brotherNode);
         ASTNode* getLastBrother();
+        //打印以当前节点为根节点的抽象语法树
         void printTree();
         virtual void printInfo(int depth) = 0;
 };
@@ -51,7 +54,7 @@ class ASTNode
 class RootNode : public ASTNodeType
 {
     public:
-        RootNode(){this->nodeType=root;this->content="root";};
+        RootNode(){this->nodeType=root;this->content="Root Node";};
         void printInfo(int depth);
 };
 #endif
