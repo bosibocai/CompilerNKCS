@@ -18,6 +18,9 @@ enum class opType
     notop=11, // !
     getArrayValue=12, // a[n]
     assignArrayValue=13, // a[n]=
+    getvalue = 14, //*a
+    negative = 15, //-a
+    signaland = 16 //&a
 };
 
 class OpASTNode:public ASTNode
