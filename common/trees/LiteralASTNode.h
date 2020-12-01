@@ -10,6 +10,6 @@ class LiteralASTNode:public ASTNode
         void printInfo(int depth);
         //得到字面量的值--将string转化为int
         int getValue();
-}
+};
 
 #endif
