@@ -6,18 +6,22 @@
 enum class ASTNodeType
 {
     root=1,
-    defFunc=2,//声明函数
-    callFunc=3,//调用函数
+    defFunc=2,//声明函数，没实现
+    callFunc=3,//调用函数，没实现
     stmt=4,
     exp=5,//表达式
     op=6,//操作符，包括
     defVar=7,//声明变量
-    assignVar=8,//赋值语句中的变量
+    callVar=8,//调用变量
     loop=9,//循环
     conditional=10,//条件
     literal=11,//字面量
 
 };
+
+/*
+    其他节点都继承自该节点，其中声明节点包括声明函数和声明变量需要链接symbol
+*/
 
 class ASTNode
 {
