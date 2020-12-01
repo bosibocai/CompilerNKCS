@@ -3,14 +3,7 @@
     #include <stdio.h>
     #include <string>
     #include <fstream>
-    #include "../common/tables/symbol.h"
-    #include "../common/trees/ASTNode.h"
-    #include "../common/trees/DefVarASTNode.h"
-    #include "../common/trees/StmtASTNode.h"
-    #include "../common/trees/ConditionASTNode.h"
-    #include "../common/trees/LoopASTNode.h"
-    #include "../common/trees/VarASTNode.h"
-    #include "../common/trees/OpASTNode.h"
+    #include "../common/tools.h"
     
     extern int yylex();
     int yyerror(char* s);
