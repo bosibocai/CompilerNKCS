@@ -3,7 +3,7 @@
 
 DefVarASTNode::DefVarASTNode(char *content, ASTNode *value):ASTNode(content,ASTNodeType::defVar)
 {
-    this->type = Type::unset;
+    this->symbolType = Type::unset;
     //value节点为孩子节点
     this->addChildNode(value);
     //content中是id
@@ -33,7 +33,7 @@ void DefVarASTNode::setSymbolType(char* type)
         {
             brotherNode->symbolType=t;
         }
-        brotherNode=DefVarASTNode*)brotherNode->getBrother();
+        brotherNode=(DefVarASTNode*)brotherNode->getBrother();
     }
 }
 
@@ -58,7 +58,7 @@ void DefVarASTNode::setSymbolType(char* type,char *len)
         {
             brotherNode->symbolType=t;
         }
-        brotherNode=DefVarASTNode*)brotherNode->getBrother();
+        brotherNode=(DefVarASTNode*)brotherNode->getBrother();
     }
 }
 

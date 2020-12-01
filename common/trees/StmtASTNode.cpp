@@ -1,6 +1,6 @@
 #include "StmtASTNode.h"
 
-StmtASTNode：：StmtASTNode(stmtType stmt_type):ASTNode(ASTNodeType::stmt)
+StmtASTNode::StmtASTNode(stmtType stmt_type):ASTNode(ASTNodeType::stmt)
 {
     this->stmt_type=stmt_type;
 }
