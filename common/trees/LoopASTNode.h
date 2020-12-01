@@ -23,7 +23,7 @@ class LoopASTNode:public ASTNode
 
         //代码块部分也为该节点的child
     public:
-        //FOR 循环节点初始化
+        //FOR 循环节点初始化,语句中init、condition、increment都可能为空
         LoopASTNode(char* content,LoopType type,ASTNode *stmts,ASTNode* init,ASTNode* condition,ASTNode* increment);
         //WHILE 循环节点初始化
         LoopASTNode(char* content,LoopType type,ASTNode *stmts,ASTNode* condition);
