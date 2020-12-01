@@ -33,7 +33,7 @@ void DefVarASTNode::setSymbolType(char* type)
         {
             brotherNode->symbolType=t;
         }
-        brotherNode=DefVarASTNode*)brotherNode->getBrother();
+        brotherNode=(DefVarASTNode*)brotherNode->getBrother();
     }
 }
 
@@ -58,7 +58,7 @@ void DefVarASTNode::setSymbolType(char* type,char *len)
         {
             brotherNode->symbolType=t;
         }
-        brotherNode=DefVarASTNode*)brotherNode->getBrother();
+        brotherNode=(DefVarASTNode*)brotherNode->getBrother();
     }
 }
 

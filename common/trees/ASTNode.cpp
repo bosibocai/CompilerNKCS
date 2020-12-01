@@ -1,12 +1,19 @@
 #include<typeinfo>
 #include "ASTNode.h"
 
+ASTNode::ASTNode() {
+    this->child = NULL;
+    this->parent = NULL;
+    this->brother = NULL;
+    this->content = "Initial";
+}
+
 ASTNode::ASTNode(ASTNodeType type)
 {
     this->nodeType=type;
 }
 
-ASTNode::ASTNode(ASTNodeType type,char* content)
+ASTNode::ASTNode(char* content,ASTNodeType type)
 {
     this->nodeType=type;
     this->content=content;
@@ -78,7 +85,7 @@ void ASTNode::printTree()
     ASTNode::printSelf(this,0);
 }
 
-RootNode::RootNode():ASTNodeType(ASTNodeType::root)
+RootNode::RootNode():ASTNode(ASTNodeType::root)
 {
     this->content="Root";
 }

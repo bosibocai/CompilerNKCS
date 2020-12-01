@@ -46,6 +46,9 @@ public:
     void setId(int id);
 };
 
+
+
+
 // --------------------------------------------
 // SymbolTable类：符号表，每个作用域都维护自己的符号表
 // 不同符号表通过树相连
@@ -57,7 +60,7 @@ protected:
     SymbolTable* father;
     SymbolTable* child;
     SymbolTable* brother;
-    Root* root;
+    SymbolTable* root;
     // 未实现函数调用，此处isFun应为False
     bool isFun;
     Symbol* findSymbolinThisTable(std::string name);
@@ -88,5 +91,6 @@ public:
     std::vector<Symbol*> *symbols;
     Root();
 };
+
 
 #endif //!SYMBOL_TABLE

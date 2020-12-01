@@ -39,9 +39,9 @@ class ASTNode
         static void printSelf(ASTNode *selfNode,int depth);
     
     public:
-        ASTNode(){};
+        ASTNode();
         ASTNode(ASTNodeType type);
-        ASTNode(ASTNodeType type,char* content);
+        ASTNode(char* content,ASTNodeType type);
         inline ASTNodeType getNodeType() { return this->nodeType; }
         inline ASTNode* getParent() { return this->parent; }
         inline ASTNode* getChild() { return this->child; }

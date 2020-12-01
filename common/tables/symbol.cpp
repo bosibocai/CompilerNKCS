@@ -60,7 +60,7 @@ SymbolTable::SymbolTable(bool isFun, SymbolTable* father){
     SymbolTable* temp = this;
     while(temp->isFun)
         temp = temp -> father;
-    this -> root = (Root*)temp;
+    this -> root = temp;
     this -> isFun = isFun;
 }
 
@@ -90,11 +90,11 @@ bool SymbolTable::insertSymbol(std::string name, Type type){
         return false;
     Symbol* temp = new Symbol(name, type);
     int width = type_width.find(type)->second;
-    temp -> setId(this->root->symbolCount++);
+    // temp -> setId(this->root->symbolCount++);
     temp -> setWidth(width);
-    temp -> setOffset(this->root->tatalOffset);
-    this->root->tatalOffset += width;
-    this->root->symbols->push_back(temp);
+    // temp -> setOffset(this->root->tatalOffset);
+    // this->root->tatalOffset += width;
+    // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
     return true;
 }
@@ -107,11 +107,11 @@ bool SymbolTable::insertArraySymbol(ASTNode* node){
     Symbol* temp = new Symbol(name, Type::Array);
     Type itemType = arrayNode -> getSymbolType();
     int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
-    temp -> setId(this->root->symbolCount++);
+    // temp -> setId(this->root->symbolCount++);
     temp -> setWidth(width);
-    temp ->setOffset(this->root->tatalOffset);
-    this->root->tatalOffset += width;
-    this->root->symbols->push_back(temp);
+    // temp ->setOffset(this->root->tatalOffset);
+    // this->root->tatalOffset += width;
+    // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
     return true;
 }
