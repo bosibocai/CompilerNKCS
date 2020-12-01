@@ -1,6 +1,6 @@
 #include "LiteralASTNode.h"
 
-LiteralASTNode::LiteralASTNode(char* content):ASTNodeType(content,ASTNodeType::literal)
+LiteralASTNode::LiteralASTNode(char* content):ASTNode(content,ASTNodeType::literal)
 {
     //继承ASTNode初始化
 }
