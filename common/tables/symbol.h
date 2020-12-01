@@ -3,9 +3,9 @@
 
 #include <string>
 #include <unordered_map> //每个符号表用hash实现
-#include <stack> //stack中存不同作用域的符号表
+#include <vector> //存所有的symbols
 
-
+#include "../trees/ASTNode.h"
 
 enum class Type{
     unset = -1,
@@ -13,36 +13,80 @@ enum class Type{
     boolean = 1,
     string = 2,
     pointer = 3,
-    Array = 4,
-    Struct = 5
+    Array = 4
 };
 
+std::unordered_map<Type, int> type_width{
+    {Type::unset, 0},
+    {Type::integer, 4},
+    {Type::boolean, 1},
+    {Type::pointer, 16},
+};
+
+// --------------------------------------------
+// Symbol类：符号，符号表中的每一项
+// --------------------------------------------
 class Symbol{
 protected:
     std::string name;
     Type type;
+    int id; //这个Symbol存在vector中第几个位置
     int  width; //当前type的宽度，未赋值时设为-1，int=4, float=8
-    int offset; //Tabel中相对地址
+    int offset; //Table中相对地址
 public:
     Symbol();
     Symbol(std::string name, Type type);
-    std::string getName;
+    std::string getName();
     int getOffset();
     int getWidth();
     Type &getType();
+    // 传参的时候，若type为Array,width应设置为（个数*类型宽度）
     void setWidth(int width);
     void setOffset(int offset);
+    void setId(int id);
 };
 
-
+// --------------------------------------------
+// SymbolTable类：符号表，每个作用域都维护自己的符号表
+// 不同符号表通过树相连
+// --------------------------------------------
 class SymbolTable{
-private:
+protected:
+    // 用名字当作Symbol地址
     std::unordered_map<std::string, Symbol*> symbolHash;
+    SymbolTable* father;
+    SymbolTable* child;
+    SymbolTable* brother;
+    Root* root;
+    // 未实现函数调用，此处isFun应为False
+    bool isFun;
+    Symbol* findSymbolinThisTable(std::string name);
 public:
-SymbolTable();
-    int insertSymbol();
-    Symbol* findSymbol();
+    SymbolTable();
+    SymbolTable(bool isFun, SymbolTable* father);
+    bool insertSymbol(std::string name, Type type);
+    // 如果符号表项是一个数组：传参直接是结点的指针
+    bool insertArraySymbol(ASTNode* node);
+    Symbol* findSymbol(std::string name);
+    void setFather(SymbolTable* f);
+    void setChild(SymbolTable* c);
+    SymbolTable* getFather();
+    SymbolTable* getChild();
+    SymbolTable* getBrother();
 };
 
+// --------------------------------------------
+// Root类：根符号表，树中根节点
+// 对应main()函数
+// 除符号表功能外，根符号表维护所有符号的vector
+// 所有符号的vector功能未知……先跟着学长写吧，说不定后面会用到
+// --------------------------------------------
+class Root: public SymbolTable{
+public:
+    int symbolCount;
+    int tatalOffset;
+    std::vector<Symbol*> *symbols;
+    Root();
+};
 
 #endif //!SYMBOL_TABLE
