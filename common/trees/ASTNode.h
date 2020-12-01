@@ -6,18 +6,24 @@
 enum class ASTNodeType
 {
     root=1,
-    defFunc=2,//声明函数
-    callFunc=3,//调用函数
+    defFunc=2,//声明函数，没实现
+    callFunc=3,//调用函数，没实现
     stmt=4,
     exp=5,//表达式
     op=6,//操作符，包括
     defVar=7,//声明变量
-    assignVar=8,//赋值语句中的变量
+    callVar=8,//调用变量
     loop=9,//循环
     conditional=10,//条件
     literal=11,//字面量
 
 };
+
+/*
+    其他节点都继承自该节点，其中声明节点包括声明函数和声明变量需要链接symbol
+    nodeType在初始化时赋值，继承ASTNode初始化函数
+    父亲节点、兄弟节点、孩子节点只能通过函数获取
+*/
 
 class ASTNode
 {
@@ -37,9 +43,9 @@ class ASTNode
         ASTNode(ASTNodeType type);
         ASTNode(ASTNodeType type,char* content);
         inline ASTNodeType getNodeType() { return this->nodeType; }
-        inline AbstractASTNode* getParent() { return this->parent; }
-        inline AbstractASTNode* getChild() { return this->child; }
-        inline AbstractASTNode* getBrother() { return this->brother; }
+        inline ASTNode* getParent() { return this->parent; }
+        inline ASTNode* getChild() { return this->child; }
+        inline ASTNode* getBrother() { return this->brother; }
         inline std::string getContent() { return this->content; }
         inline void setParent(ASTNode* parentNode){this->parent=parentNode;}
         void addChildNode(ASTNode* childNode);
@@ -51,10 +57,10 @@ class ASTNode
 };
 
 
-class RootNode : public ASTNodeType
+class RootNode : public ASTNode
 {
     public:
-        RootNode(){this->nodeType=root;this->content="Root Node";};
+        RootNode();
         void printInfo(int depth);
 };
 #endif

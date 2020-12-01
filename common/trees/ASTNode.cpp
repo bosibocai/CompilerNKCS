@@ -55,12 +55,11 @@ void ASTNode::printSelf(ASTNode *selfNode,int depth)
     //递归
     //深度优先遍历，遇到节点就输出，若节点为空退出
     if(selfNode==NULL) return;
-    //打印当前节点类型和深度
-    std::cout<<(int)selfNode->nodeType<<" "<<typeid(*selfNode).name()<<" "<<"\t";
+    //打印当前节点深度,及节点深度
     std::cout<<"depth:"<<" "<<depth;
     for(int i = 0;i<depth;i++)
     {
-        std::cout<<"——";
+        std::cout<<"--";
     }
     //根据每种节点的特性，打印当前节点Info
     selfNode->printInfo(depth);
@@ -72,13 +71,16 @@ void ASTNode::printSelf(ASTNode *selfNode,int depth)
         childNode=childNode->brother;
 
     }
-
-
 }
 
 void ASTNode::printTree()
 {
     ASTNode::printSelf(this,0);
+}
+
+RootNode::RootNode():ASTNodeType(ASTNodeType::root)
+{
+    this->content="Root";
 }
 
 void RootNode::printInfo(int depth)

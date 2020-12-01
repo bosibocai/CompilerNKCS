@@ -1,12 +1,13 @@
 #ifndef LOOPASTNODE
 #define LOOPASTNODE
 #include "ASTNode.h"
+#include "StmtASTNode.h"
 
 //循环类型，for,while
 enum class LoopType
 {
-    FOR,
-    WHILE,
+    FOR=1,
+    WHILE=2,
 };
 
 class LoopASTNode:public ASTNode
@@ -22,15 +23,15 @@ class LoopASTNode:public ASTNode
 
         //代码块部分也为该节点的child
     public:
-        //FOR 循环节点初始化
+        //FOR 循环节点初始化,语句中init、condition、increment都可能为空
         LoopASTNode(char* content,LoopType type,ASTNode *stmts,ASTNode* init,ASTNode* condition,ASTNode* increment);
         //WHILE 循环节点初始化
         LoopASTNode(char* content,LoopType type,ASTNode *stmts,ASTNode* condition);
-        inline LoopType getLoopType(){return this->loopType;}
+        inline LoopType getType(){return this->loopType;}
         inline ASTNode* getInit(){return this->init;}
         inline ASTNode* getCondition(){return this->condition;}
         inline ASTNode* getIncrement(){return this->increment;}
         void printInfo(int depth);
-}
+};
 
 #endif
