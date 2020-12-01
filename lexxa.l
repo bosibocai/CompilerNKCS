@@ -21,22 +21,22 @@ type        int|void
 {ws}             {}
 {type}           {yylval.str=strdup(yytext);printf("TYPE, %s\n",yytext);return(TYPE);}
 main             {yylval.str=strdup(yytext);printf("MAIN,%s\n",yytext);return(MAIN);}
-printf           {printf("PRINTF,%s\n",yytext);return(PRINTF);}
+printf           {printf("PRINTF,%s\n",yytext);}//return(PRINTF);}
 return           {printf("RETURN,%s\n",yytext);return(RETURN);}
 if               {printf("IF,%s\n",yytext);return(IF);}
 while            {printf("WHILE,%s\n",yytext);return(WHILE);}
 for              {printf("FOR,%s\n",yytext);return(FOR);}
 {id}             {yylval.str=strdup(yytext);printf("ID,%s\n",yytext);return(ID);}
 {num}            {yylval.str=strdup(yytext);printf("INT,%s\n",yytext);return(INT);}
-"//".*\n         {printf("linecomment,%s\n",yytext);return(COMMENT);}
+"//".*\n         {printf("linecomment,%s\n",yytext);}
 "{"              {printf("LBRACE,%s\n",yytext);return(LBRACE);}
 "}"              {printf("RBRACE,%s\n",yytext);return(RBRACE);}
 "("              {printf("LP,%s\n",yytext);return(LP);}
 ")"              {printf("RP,%s\n",yytext);return(RP);}
-"["              {printf("LB,%s\n",yytext);return(LB);}
-"]"              {printf("RB,%s\n",yytext);return(RB);}
+"["              {printf("LB,%s\n",yytext);return(LBRAKET);}
+"]"              {printf("RB,%s\n",yytext);return(RBRAKET);}
 ","              {printf("COMMA,%s\n",yytext);return(COMMA);}
-";"              {printf("SEMICOLEN,%s\n",yytext);return(SEMICOLEN);}
+";"              {printf("SEMICOLON,%s\n",yytext);return(SEMICOLON);}
 "+"              {printf("ADD,%s\n",yytext);return(ADD);}
 "-"              {printf("SUBTRACT,%s\n",yytext);return(SUBTRACT);}
 "*"              {printf("MULTIPLY,%s\n",yytext);return(MULTIPLY);}
