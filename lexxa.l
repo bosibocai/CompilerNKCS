@@ -64,17 +64,20 @@ wrap               yymore();
 }
 %%
 
+int yywrap()
+{return 1;}
 
-//以下为函数定义部分
-int main(int avgs, char *avgr[]) 
-{
-    yyin = fopen(avgr[1], "r");
-    if (!yyin)
-    {
-        return 0;
-    }
-    yylex();
-    fclose(yyin);
 
-    return 1;
-}
+// //以下为函数定义部分
+// int main(int avgs, char *avgr[]) 
+// {
+//     yyin = fopen(avgr[1], "r");
+//     if (!yyin)
+//     {
+//         return 0;
+//     }
+//     yylex();
+//     fclose(yyin);
+
+//     return 1;
+// }
