@@ -3,6 +3,9 @@
     #include <stdio.h>
     #include <string>
     #include <fstream>
+    #include <cstring>
+    #include <string.h>
+
     #include "../common/tools.h"
     
     extern int yylex();
@@ -49,12 +52,12 @@
 
 // type：非终结符
 %type <str> specifier //标识符，声明变量类型 specifier -> TYPE 
-%type <ast> stmts stmt //statement
-%type <ast> expr //expression
-%type <ast> compd //compound
-%type <ast> varDec //变量声明
-%type <ast> def dec decList initFor
-%type <ast> extDefList extDef extDecList
+%type <astNode> stmts stmt //statement
+%type <astNode> expr //expression
+%type <astNode> compd //compound
+%type <astNode> varDec //变量声明
+%type <astNode> def dec decList initFor
+%type <astNode> extDefList extDef extDecList
 
 %%
 
@@ -88,7 +91,7 @@ extDef:
         }
         | specifier SEMICOLON {}
         | error SEMICOLON {
-            yyerrork;
+            yyerrok;
             $$ = NULL;
         }
 ;
@@ -105,7 +108,7 @@ extDecList:
 
 specifier:
         TYPE{
-            $$ = strcpy($1);
+            $$ = strdup($1);
         }
         | TYPE MULTIPLY {
             $$ = (char*)("integer point");
@@ -370,24 +373,31 @@ expr:
 %%
 
 int yyerror(char* s){
-    fprintf("Syntax error on line %s\n", s);
+    printf("Syntax error on line %s\n", s);
     return 1;
 }
 
 
 // 暂时没有那么多可选参数，只能从头开始运行
-int main(int args, char* argv){
+int main(int argc, char* argv[]){
     char* filename = NULL;
     if(argc>=2){
-        filename == argv[2];
+        filename == argv[1];
     }
+    //printf("%s",filename.c_str());
+    printf("begin1.\n");
     FILE* file = fopen(filename, "r");
+    printf("begin2.\n");
     yyin = file;
-    while(!feof(yyin)){
+    printf("begin3.\n");
+    while(!feof(yyin))
+    {
         yyparse();
     }
+
+    root->printTree();
+        
 
     return 0;
 }
 
-%%

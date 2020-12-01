@@ -16,12 +16,12 @@ enum class Type{
     Array = 4
 };
 
-std::unordered_map<Type, int> type_width{
-    {Type::unset, 0},
-    {Type::integer, 4},
-    {Type::boolean, 1},
-    {Type::pointer, 16},
-};
+// std::unordered_map<Type, int> type_width{
+//     {Type::unset, 0},
+//     {Type::integer, 4},
+//     {Type::boolean, 1},
+//     {Type::pointer, 16},
+// };
 
 // --------------------------------------------
 // Symbol类：符号，符号表中的每一项

@@ -89,7 +89,7 @@ bool SymbolTable::insertSymbol(std::string name, Type type){
     if(this->findSymbol(name)!=NULL)
         return false;
     Symbol* temp = new Symbol(name, type);
-    int width = type_width.find(type)->second;
+    int width = 4;
     // temp -> setId(this->root->symbolCount++);
     temp -> setWidth(width);
     // temp -> setOffset(this->root->tatalOffset);
@@ -106,7 +106,8 @@ bool SymbolTable::insertArraySymbol(ASTNode* node){
         return false;
     Symbol* temp = new Symbol(name, Type::Array);
     Type itemType = arrayNode -> getSymbolType();
-    int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
+    //int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
+    int width = arrayNode -> getArrayLen()*4;
     // temp -> setId(this->root->symbolCount++);
     temp -> setWidth(width);
     // temp ->setOffset(this->root->tatalOffset);
@@ -142,12 +143,12 @@ SymbolTable* SymbolTable::getBrother(){
 // 除符号表功能外，根符号表维护所有符号的vector
 // 所有符号的vector功能未知……先跟着学长写吧，说不定后面会用到
 // --------------------------------------------
-Root::Root(){
-    this -> father = NULL;
-    this -> root = this;
-    this -> child = NULL;
-    this -> brother = NULL;
-    // Root为main函数，此时isFun为true
-    this -> isFun = true;
-    this -> symbols = new std::vector<Symbol*>();
-}
+// Root::Root(){
+//     this -> father = NULL;
+//     this -> root = this;
+//     this -> child = NULL;
+//     this -> brother = NULL;
+//     // Root为main函数，此时isFun为true
+//     this -> isFun = true;
+//     this -> symbols = new std::vector<Symbol*>();
+// }
