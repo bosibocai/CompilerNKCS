@@ -23,7 +23,7 @@ ifeq ($(GRAMMAREXIST),notexist)
 endif
 	$(BISON) --output="./Linux/grammar.tab.cpp" --defines="./Linux/grammar.tab.h" grammar.y
 	$(FLEX) --outfile="./Linux/lexxa.flex.cpp" lexxa.l
-	sed -i "1i\#include \"../common/tool.h\"" ./Linux/grammar.tab.h
+	sed -i "1i\#include \"../common/tools.h\"" ./Linux/grammar.tab.h
 
 %.o: %.cpp $(DEPS)
 	$(CXX) -c $< -o $@ -std=$(CXXVER) -g
