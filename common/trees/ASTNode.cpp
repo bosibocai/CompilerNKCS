@@ -78,6 +78,11 @@ void ASTNode::printTree()
     ASTNode::printSelf(this,0);
 }
 
+RootNode::RootNode():ASTNodeType(ASTNodeType::root)
+{
+    this->content="Root";
+}
+
 void RootNode::printInfo(int depth)
 {
     std::cout<<this->content<<std::endl;
