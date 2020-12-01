@@ -185,7 +185,7 @@ stmt:
         | IF LP expr RP stmt {
             $$ = new ConditionASTNode((char*)"", conditionalType::IF, $3, $5);
         }
-        | IF LP expr RP stmt ELSE stmt %prec LOWER_THAN_ELSE{
+        | IF LP expr RP stmt ELSE stmt {
             $$ = new ConditionASTNode((char*)"", conditionalType::IF, $3, $5, $7);
         }
         | WHILE LP expr RP stmt {
