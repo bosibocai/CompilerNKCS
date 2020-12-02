@@ -8,6 +8,7 @@
 
     #include "../common/tools.h"
     
+    class ASTNode;
     extern int yylex();
     int yyerror(char* s);
 
@@ -90,6 +91,9 @@ extDef:
             $$ = var;
         }
         | specifier SEMICOLON {}
+        | specifier MAIN LP RP compd {
+            $$ = $5;
+        } 
         | error SEMICOLON {
             yyerrok;
             $$ = NULL;
@@ -103,7 +107,7 @@ extDecList:
         | extDecList COMMA varDec {
             $1->getLastBrother()->addBrother($3);
             $$ = $1;
-        }
+        } 
 ;
 
 specifier:
@@ -135,7 +139,7 @@ compd:
            $$ = node;
        } 
        | error RBRACE {
-           yyerrork;
+           yyerrok;
        }
 ;
 
@@ -148,7 +152,7 @@ stmts:
             }
         }
         | {
-            $$ = NULL
+            $$ = NULL;
         }
 ;
 
@@ -179,10 +183,10 @@ stmt:
             $$ = new StmtASTNode(stmtType::returnStmt);
         }
         | IF LP expr RP stmt {
-            $$ = new ConditionASTNode((char*)"", conditionalType::IF, $3, $5);
+            $$ = new ConditionalASTNode((char*)"", conditionalType::IF, $3, $5);
         }
         | IF LP expr RP stmt ELSE stmt {
-            $$ = new ConditionASTNode((char*)"", conditionalType::IF, $3, $5, $7);
+            $$ = new ConditionalASTNode((char*)"", conditionalType::IF, $3, $5, $7);
         }
         | WHILE LP expr RP stmt {
             $$ = new LoopASTNode((char*)"", LoopType::WHILE, $5, $3);
@@ -212,7 +216,7 @@ stmt:
             $$ = new LoopASTNode((char*)"", LoopType::FOR, $9, $3, $5, $7);
         }
         | error SEMICOLON{
-            yyerrork;
+            yyerrok;
         }
 ;
 
@@ -223,7 +227,7 @@ def:
             $$ = temp;
         }
         | error SEMICOLON{
-            yyerrork;
+            yyerrok;
         }
 ;
 
@@ -270,6 +274,7 @@ expr:
             ASTNode* temp = new OpASTNode((char*)"&&",opType::andop);
             temp->addChildNode($1);
             $1->addBrother($3);
+            $3->setParent(temp);
             $$=temp;
 
         }
@@ -350,11 +355,12 @@ expr:
         }
         | ADDR ID{
             ASTNode* temp = new OpASTNode((char*)"&", opType::signaland);
-            temp -> addChildNode(new VarASTNode(char*)$2);
+            ASTNode* child = new VarASTNode((char*)$2);
+            temp -> addChildNode(child);
             $$ = temp;
         }
         | MULTIPLY ID{
-            ASTNode* temp = new OpASTNode((char*)"*",opType::getValue);
+            ASTNode* temp = new OpASTNode((char*)"*",opType::getvalue);
             ASTNode* var = new VarASTNode((char*)$2);
             temp->addChildNode(var);
             $$=temp;
@@ -381,10 +387,11 @@ int yyerror(char* s){
 // 暂时没有那么多可选参数，只能从头开始运行
 int main(int argc, char* argv[]){
     char* filename = NULL;
+    printf(argv[1]);
     if(argc>=2){
         filename = argv[1];
     }
-    //printf("%s\n",filename);
+    printf("%s\n",filename);
     printf("begin1.\n");
     FILE* file = fopen(filename, "r");
     printf("begin2.\n");
@@ -395,8 +402,8 @@ int main(int argc, char* argv[]){
         yyparse();
     }
 
-    root->printTree();    
+    root->printTree();
+        
 
     return 0;
 }
-
