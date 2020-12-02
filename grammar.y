@@ -382,9 +382,9 @@ int yyerror(char* s){
 int main(int argc, char* argv[]){
     char* filename = NULL;
     if(argc>=2){
-        filename == argv[1];
+        filename = argv[1];
     }
-    //printf("%s",filename.c_str());
+    //printf("%s\n",filename);
     printf("begin1.\n");
     FILE* file = fopen(filename, "r");
     printf("begin2.\n");
@@ -395,8 +395,7 @@ int main(int argc, char* argv[]){
         yyparse();
     }
 
-    root->printTree();
-        
+    root->printTree();    
 
     return 0;
 }
