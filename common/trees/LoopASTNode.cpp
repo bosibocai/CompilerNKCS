@@ -26,7 +26,7 @@ LoopASTNode::LoopASTNode(char* content,LoopType type,ASTNode *stmts,ASTNode* con
 {
     this->loopType=type;
     this->addChildNode(stmts);
-    this->condition=NULL;
+    this->condition=condition;
     this->init=init;
     if(condition!=NULL)
     {

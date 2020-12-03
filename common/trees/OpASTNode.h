@@ -12,7 +12,7 @@ enum class opType
     mod=5, // %
     pow=6, // ^
     assign=7, // =
-    relop=8, // <,>,<=,>=
+    relop=8, // <,>,<=,>=,!=
     andop=9, // &&
     orop=10, //||
     notop=11, // !
