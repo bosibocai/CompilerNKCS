@@ -1,7 +1,5 @@
 PROGRAM = parser
 GRAMMARFOLDER = ./Linux/
-BUILDFOLDER = build/
-BUILDIO = build/io
 NASM = nasm
 BUILDIOEXIST = $(shell if [ -d $(BUILDIO) ]; then echo "exist"; else echo "notexist"; fi;)
 GRAMMAREXIST = $(shell if [ -d $(GRAMMARFOLDER) ]; then echo "exist"; else echo "notexist"; fi;)
@@ -29,18 +27,4 @@ endif
 	$(CXX) -c $< -o $@ -std=$(CXXVER) -g
 
 clean:
-	rm -rf $(GRAMMARFOLDER) $(OBJ) $(PROGRAM) $(BUILDFOLDER) common/util/io/asm_io.o
-
-build:
-ifeq ($(BUILDEXIST),notexist)
-	mkdir $(BUILDFOLDER)
-endif
-ifeq ($(BUILDIOEXIST),notexist)
-	mkdir $(BUILDIO)
-endif
-	$(NASM) -f elf -d ELF_TYPE common/util/io/asm_io.asm -o common/util/io/asm_io.o
-	cp $(PROGRAM) $(BUILDFOLDER)
-	cp common/util/io/asm_io.o $(BUILDIO)
-	cp common/util/io/asm_io.inc $(BUILDIO)
-	cp -r test/ $(BUILDFOLDER)
-	cp example/Makefile $(BUILDFOLDER)
+	rm -rf $(GRAMMARFOLDER) $(OBJ) $(PROGRAM) common/util/io/asm_io.o
