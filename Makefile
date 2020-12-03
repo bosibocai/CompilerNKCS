@@ -27,4 +27,4 @@ endif
 	$(CXX) -c $< -o $@ -std=$(CXXVER) -g
 
 clean:
-	rm -rf $(GRAMMARFOLDER) $(OBJ) $(PROGRAM) common/util/io/asm_io.o
+	rm -rf $(GRAMMARFOLDER) $(OBJ) $(PROGRAM)
