@@ -33,7 +33,7 @@
 %left <astNode> MULTIPLY DIVIDE MOD
 %left <astNode> POW
 %left <astNode> AND OR
-%left <str> RELOP //  > ≥ < ≤ 
+%left <str> RELOP //  > ≥ < ≤  !=
 %left LBRACE RBRACE // { }
 %left LBRAKET RBRAKET // [ ]
 %left LP RP // ( )

@@ -45,12 +45,12 @@ for              {printf("FOR            %s\n",yytext);return(FOR);}
 "%"              {printf("MOD            %s\n",yytext);return(MOD);}
 "^"              {printf("POW            %s\n",yytext);return(POW);}
 "="              {printf("ASSIGN         %s\n",yytext);return(ASSIGN);}
-"=="             {printf("AA             %s\n",yytext);return(RELOP);}
-">"              {printf("MORE           %s\n",yytext);return(RELOP);}
-"<"              {printf("LESS           %s\n",yytext);return(RELOP);}
-">="             {printf("MA             %s\n",yytext);return(RELOP);}
-"<="             {printf("LA             %s\n",yytext);return(RELOP);}
-"!="             {printf("NA             %s\n",yytext);return(RELOP);}
+"=="             {printf("AA             %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
+">"              {printf("MORE           %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
+"<"              {printf("LESS           %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
+">="             {printf("MA             %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
+"<="             {printf("LA             %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
+"!="             {printf("NA             %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
 "&&"             {printf("AND            %s\n",yytext);return(AND);}
 "&"              {printf("ADDR           %s\n",yytext);return(ADDR);}
 "||"             {printf("OR             %s\n",yytext);return OR;}

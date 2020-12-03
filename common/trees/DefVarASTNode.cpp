@@ -47,7 +47,7 @@ void DefVarASTNode::setSymbolType(char* type,char *len)
     }
     if(this->symbolType==Type::unset)
     {
-        this->symbolType==t;
+        this->symbolType=t;
     }
     this->arrayLen=atoi(len);
     //同时定义多个变量时
@@ -74,7 +74,7 @@ void DefVarASTNode::printInfo(int depth)
     else if(this->symbolType==Type::pointer)
         std::cout<<" type: pointer";
     else if(this->symbolType==Type::Array)
-        std::cout<<" type: array";
+        std::cout<<" type: array"<<" size: "<<this->arrayLen;
     std::cout<<std::endl;
 }
 
