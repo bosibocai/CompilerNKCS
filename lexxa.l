@@ -21,7 +21,7 @@ type        int|void
 {ws}             {}
 {type}           {yylval.str=strdup(yytext);printf("TYPE, %s\n",yytext);return(TYPE);}
 main             {yylval.str=strdup(yytext);printf("MAIN,%s\n",yytext);return(MAIN);}
-printf           {printf("PRINTF,%s\n",yytext);}//return(PRINTF);}
+printf           {printf("PRINTF,%s\n",yytext);return(PRINTF);}
 return           {printf("RETURN,%s\n",yytext);return(RETURN);}
 if               {printf("IF,%s\n",yytext);return(IF);}
 while            {printf("WHILE,%s\n",yytext);return(WHILE);}

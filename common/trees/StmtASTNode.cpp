@@ -23,5 +23,9 @@ void StmtASTNode::printInfo(int depth)
     {
         std::cout<<"Return statement."<<std::endl;
     }
+    else if(this->stmt_type==stmtType::printStmt)
+    {
+        std::cout<<"Print statement."<<std::endl;
+    }
 
 }

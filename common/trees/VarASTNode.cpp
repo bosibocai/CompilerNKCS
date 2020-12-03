@@ -6,5 +6,5 @@ VarASTNode::VarASTNode(char* content,ASTNode* value):ASTNode(content,ASTNodeType
 
 void VarASTNode::printInfo(int depth)
 {
-    std::cout<<"Var"<<this->content<<std::endl;
+    std::cout<<"Var"<<" "<<this->content<<std::endl;
 }
