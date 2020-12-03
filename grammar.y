@@ -48,6 +48,7 @@
 %token <str> TYPE
 %token MAIN
 %token FOR WHILE
+%token PRINTF
 
 
 
@@ -112,10 +113,10 @@ extDecList:
 
 specifier:
         TYPE{
-            $$ = strdup($1);
+            $$ = (char*)"integer";
         }
         | TYPE MULTIPLY {
-            $$ = (char*)("integer point");
+            $$ = (char*)"pointer";
         }
 ;
 
@@ -125,7 +126,7 @@ varDec:
         }
         | ID LBRAKET INT RBRAKET {
             DefVarASTNode* var = new DefVarASTNode($1);
-            var -> setSymbolType((char*)("array"),$3);
+            var -> setSymbolType((char*)"array",$3);
             $$ = var;
         }
 ;
@@ -179,8 +180,18 @@ stmt:
         | compd {
             $$ = $1;
         }
-        | RETURN expr SEMICOLON {
+        | PRINTF LP expr RP SEMICOLON{
+            ASTNode* temp = new StmtASTNode(stmtType::printStmt);
+            temp->addChildNode($3);
+            $$=temp;
+        }
+        | RETURN SEMICOLON {
             $$ = new StmtASTNode(stmtType::returnStmt);
+        }
+        | RETURN expr SEMICOLON {
+            ASTNode* temp = new StmtASTNode(stmtType::returnStmt);
+            temp->addChildNode($2);
+            $$ = temp;
         }
         | IF LP expr RP stmt {
             $$ = new ConditionalASTNode((char*)"", conditionalType::IF, $3, $5);

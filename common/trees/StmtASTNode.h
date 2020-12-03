@@ -9,6 +9,7 @@ enum class stmtType
     expStmt=2,
     compoundStmt=3,
     returnStmt=4,
+    printStmt=5,
 };
 
 class StmtASTNode:public ASTNode

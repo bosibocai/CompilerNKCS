@@ -13,7 +13,7 @@ void DefVarASTNode::setSymbolType(char* type)
 {
     //定义symbol类型,int 和 point
     Type t;
-    if(strcmp(type,"int")==0)
+    if(strcmp(type,"integer")==0)
     {
         t=Type::integer;
     }
@@ -23,7 +23,7 @@ void DefVarASTNode::setSymbolType(char* type)
     }
     if(this->symbolType==Type::unset)
     {
-        this->symbolType==t;
+        this->symbolType=t;
     }
     //同时定义多个变量时
     DefVarASTNode *brotherNode=(DefVarASTNode*)this->getBrother();
@@ -65,15 +65,16 @@ void DefVarASTNode::setSymbolType(char* type,char *len)
 void DefVarASTNode::printInfo(int depth)
 {
     //变量声明 包括 类型和id
-    std::cout<<"Var Declaration.";
+    std::cout<<"Var Declaration. ";
+    //id
+    std::cout<<this->content;
     //类型
     if(this->symbolType == Type::integer)
-        std::cout<<"int";
+        std::cout<<" type: int";
     else if(this->symbolType==Type::pointer)
-        std::cout<<"pointer";
+        std::cout<<" type: pointer";
     else if(this->symbolType==Type::Array)
-        std::cout<<"array";
-    //id
-    std::cout<<this->content<<std::endl;
+        std::cout<<" type: array";
+    std::cout<<std::endl;
 }
 

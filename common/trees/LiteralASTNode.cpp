@@ -7,7 +7,7 @@ LiteralASTNode::LiteralASTNode(char* content):ASTNode(content,ASTNodeType::liter
 
 void LiteralASTNode::printInfo(int depth)
 {
-    std::cout<<"Literal"<<std::stoi(this->content)<<std::endl;
+    std::cout<<"Literal "<<std::stoi(this->content)<<std::endl;
 }
 
 int LiteralASTNode::getValue()
