@@ -22,7 +22,7 @@
 %union{
     ASTNode* astNode;
     char* str;
-    int pt;
+    Symbol* pt;
 }
 
 // right：右结合 -> 赋值 or 取非 or 取负数 or 取地址
@@ -127,13 +127,14 @@ specifier:
 varDec:
         ID {
             $$ = new DefVarASTNode($1);
-            yylval.pt = tempTable->insertSymbol($1,Type::int);
+            yylval.pt = tempTable->insertSymbol($1,Type::integer);
         }
         | ID LBRAKET INT RBRAKET {
-            DefVarASTNode* var = new DefVarASTNode($1);
+            ASTNode* node = new DefVarASTNode($1);
+            DefVarASTNode* var = (DefVarASTNode*) node;
             var -> setSymbolType((char*)"array",$3);
             $$ = var;
-            yylval.pt = tempTable->insertArraySymbol(var);
+            yylval.pt = tempTable->insertArraySymbol(node);
         }
 ;
 
@@ -141,12 +142,12 @@ varDec:
 
 compd:
        LBRACE {tempTable = new SymbolTable(false, tempTable);} 
-        stmts {
+        stmts RBRACE{
            ASTNode* node = new StmtASTNode(stmtType::compoundStmt);
-           node -> addChildNode($2);
+           node -> addChildNode($3);
            $$ = node;
-        } 
-        RBRACE {tempTable = tempTable.getFather();} 
+           tempTable = tempTable->getFather();
+        }
        | error RBRACE {
            yyerrok;
        }

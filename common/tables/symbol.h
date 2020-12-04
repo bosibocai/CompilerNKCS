@@ -67,9 +67,9 @@ protected:
 public:
     SymbolTable();
     SymbolTable(bool isFun, SymbolTable* father);
-    int insertSymbol(std::string name, Type type);
+    Symbol* insertSymbol(std::string name, Type type);
     // 如果符号表项是一个数组：传参直接是结点的指针
-    int insertArraySymbol(DefVarASTNode* node);
+    Symbol* insertArraySymbol(ASTNode* node);
     Symbol* findSymbol(std::string name);
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
