@@ -27,7 +27,7 @@ if               {printf("IF             %s\n",yytext);return(IF);}
 else             {printf("ELSE           %s\n",yytext);return(ELSE);}
 while            {printf("WHILE          %s\n",yytext);return(WHILE);}
 for              {printf("FOR            %s\n",yytext);return(FOR);}
-{id}             {yylval.str=strdup(yytext);printf("ID             %s           %s\n",yytext,yylval.str);return(ID);}
+{id}             {yylval.str=strdup(yytext);printf("ID             %s           %d\n",yytext,yylval.pt,);return(ID);}
 {num}            {yylval.str=strdup(yytext);printf("INT            %s           %s\n",yytext,yylval.str);return(INT);}
 "//".*\n         {printf("linecomment    %s\n",yytext);}
 "{"              {printf("LBRACE         %s\n",yytext);return(LBRACE);}

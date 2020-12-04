@@ -15,11 +15,14 @@
     extern char* yytext;
     extern FILE* yyin;
     ASTNode* root;
+    SymbolTable* rootTable;
+    SymbolTable* tempTable;
 %}
 
 %union{
     ASTNode* astNode;
     char* str;
+    int pt;
 }
 
 // right：右结合 -> 赋值 or 取非 or 取负数 or 取地址
@@ -34,9 +37,10 @@
 %left <astNode> POW
 %left <astNode> AND OR
 %left <str> RELOP //  > ≥ < ≤  !=
-%left LBRACE RBRACE // { }
+
 %left LBRAKET RBRAKET // [ ]
 %left LP RP // ( )
+%left LBRACE RBRACE // { }
 
 // nonassoc：不可结合
 %nonassoc SEMICOLON COMMA GETMEMBER
@@ -49,8 +53,6 @@
 %token MAIN
 %token FOR WHILE
 %token PRINTF
-
-
 
 // type：非终结符
 %type <str> specifier //标识符，声明变量类型 specifier -> TYPE 
@@ -67,6 +69,8 @@ prog:
         extDefList{
             root = new RootNode();
             root -> addChildNode($1);
+            rootTable = new SymbolTable(false, NULL);
+            tempTable = rootTable;
         }
 ;
 
@@ -123,22 +127,26 @@ specifier:
 varDec:
         ID {
             $$ = new DefVarASTNode($1);
+            yylval.pt = tempTable->insertSymbol($1,Type::int);
         }
         | ID LBRAKET INT RBRAKET {
             DefVarASTNode* var = new DefVarASTNode($1);
             var -> setSymbolType((char*)"array",$3);
             $$ = var;
+            yylval.pt = tempTable->insertArraySymbol(var);
         }
 ;
 
 // FuncDec VarList ParamDec
 
 compd:
-       LBRACE stmts RBRACE {
+       LBRACE {tempTable = new SymbolTable(false, tempTable);} 
+        stmts {
            ASTNode* node = new StmtASTNode(stmtType::compoundStmt);
            node -> addChildNode($2);
            $$ = node;
-       } 
+        } 
+        RBRACE {tempTable = tempTable.getFather();} 
        | error RBRACE {
            yyerrok;
        }
