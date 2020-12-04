@@ -85,9 +85,9 @@ Symbol* SymbolTable::findSymbol(std::string name){
     return NULL;
 }
 
-bool SymbolTable::insertSymbol(std::string name, Type type){
+int SymbolTable::insertSymbol(std::string name, Type type){
     if(this->findSymbol(name)!=NULL)
-        return false;
+        return -1;
     Symbol* temp = new Symbol(name, type);
     int width = 4;
     // temp -> setId(this->root->symbolCount++);
@@ -96,14 +96,13 @@ bool SymbolTable::insertSymbol(std::string name, Type type){
     // this->root->tatalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
-    return true;
+    return int(temp);
 }
 
-bool SymbolTable::insertArraySymbol(ASTNode* node){
-    DefVarASTNode* arrayNode = (DefVarASTNode*)node;
+int SymbolTable::insertArraySymbol(DefVarASTNode* arrayNode){
     std::string name = arrayNode -> getContent();
     if(this->findSymbol(name) != NULL)
-        return false;
+        return -1;
     Symbol* temp = new Symbol(name, Type::Array);
     Type itemType = arrayNode -> getSymbolType();
     //int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
@@ -114,7 +113,7 @@ bool SymbolTable::insertArraySymbol(ASTNode* node){
     // this->root->tatalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
-    return true;
+    return int(temp);
 }
 
 void SymbolTable::setFather(SymbolTable* f){
