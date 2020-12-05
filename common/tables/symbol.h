@@ -63,7 +63,7 @@ protected:
     SymbolTable* root;
     // 未实现函数调用，此处isFun应为False
     bool isFun;
-    Symbol* findSymbolinThisTable(std::string name);
+    
 public:
     SymbolTable();
     SymbolTable(bool isFun, SymbolTable* father);
@@ -71,11 +71,13 @@ public:
     // 如果符号表项是一个数组：传参直接是结点的指针
     Symbol* insertArraySymbol(ASTNode* node);
     Symbol* findSymbol(std::string name);
+    Symbol* findSymbolinThisTable(std::string name);
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     SymbolTable* getFather();
     SymbolTable* getChild();
     SymbolTable* getBrother();
+    SymbolTable* getThisTable();
 };
 
 // --------------------------------------------

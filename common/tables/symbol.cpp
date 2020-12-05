@@ -86,8 +86,9 @@ Symbol* SymbolTable::findSymbol(std::string name){
 }
 
 Symbol* SymbolTable::insertSymbol(std::string name, Type type){
-    if(this->findSymbol(name)!=NULL)
+    if(this->findSymbolinThisTable(name)!=NULL)
         return NULL;
+    std::cout<<"variable "<<name<<" is undefined"<<std::endl;
     Symbol* temp = new Symbol(name, type);
     int width = 4;
     // temp -> setId(this->root->symbolCount++);
@@ -135,6 +136,10 @@ SymbolTable* SymbolTable::getChild(){
 
 SymbolTable* SymbolTable::getBrother(){
     return this->brother;
+}
+
+SymbolTable* SymbolTable::getThisTable(){
+    return this;
 }
 
 // --------------------------------------------
