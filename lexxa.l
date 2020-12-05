@@ -4,9 +4,11 @@
 #include <stdlib.h>
 #include<string.h>
 #include "grammar.tab.h"
+
 extern char *yytext;
 extern FILE *yyin;
 extern YYSTYPE yylval;
+extern int yyerror(char* s);
 %}
 st          [ \t]
 ws          {st}+
@@ -27,7 +29,10 @@ if               {printf("IF             %s\n",yytext);return(IF);}
 else             {printf("ELSE           %s\n",yytext);return(ELSE);}
 while            {printf("WHILE          %s\n",yytext);return(WHILE);}
 for              {printf("FOR            %s\n",yytext);return(FOR);}
-{id}             {yylval.str=strdup(yytext);printf("ID             %s           %d\n",yytext,yylval.pt);return(ID);}
+{id}             {yylval.str=strdup(yytext);
+                  printf("ID             %s           %ld\n",yytext,tempTable);
+                  return(ID);
+                 }
 {num}            {yylval.str=strdup(yytext);printf("INT            %s           %s\n",yytext,yylval.str);return(INT);}
 "//".*\n         {printf("linecomment    %s\n",yytext);}
 "{"              {printf("LBRACE         %s\n",yytext);return(LBRACE);}
@@ -44,7 +49,7 @@ for              {printf("FOR            %s\n",yytext);return(FOR);}
 "/"              {printf("DIVIDE         %s\n",yytext);return(DIVIDE);}
 "%"              {printf("MOD            %s\n",yytext);return(MOD);}
 "^"              {printf("POW            %s\n",yytext);return(POW);}
-"="              {printf("ASSIGN         %s\n",yytext);return(ASSIGN);}
+"="              {printf("ASSIGN         %s\n","=");return(ASSIGN);}
 "=="             {printf("AA             %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
 ">"              {printf("MORE           %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
 "<"              {printf("LESS           %s\n",yytext);yylval.str=strdup(yytext);return(RELOP);}
