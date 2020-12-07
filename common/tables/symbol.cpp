@@ -64,18 +64,18 @@ SymbolTable::SymbolTable(bool isFun, SymbolTable* father){
     this -> isFun = isFun;
 }
 
-Symbol* SymbolTable::findSymbolinThisTable(std::string name){
+SymbolTable* SymbolTable::findSymbolinThisTable(std::string name){
     std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.find(name);
     if(it!=this->symbolHash.end())
-        return it->second;
+        return this;
     else
         return NULL;
 }
 
-Symbol* SymbolTable::findSymbol(std::string name){
+SymbolTable* SymbolTable::findSymbol(std::string name){
     SymbolTable* temp = this;
     while(temp != NULL){
-        Symbol* flag = temp->findSymbolinThisTable(name);
+        SymbolTable* flag = temp->findSymbolinThisTable(name);
         if(flag==NULL)
             temp = temp->father;
         else
@@ -85,9 +85,10 @@ Symbol* SymbolTable::findSymbol(std::string name){
     return NULL;
 }
 
-int SymbolTable::insertSymbol(std::string name, Type type){
-    if(this->findSymbol(name)!=NULL)
-        return -1;
+Symbol* SymbolTable::insertSymbol(std::string name, Type type){
+    if(this->findSymbolinThisTable(name)!=NULL)
+        return NULL;
+    std::cout<<"variable "<<name<<" is undefined"<<std::endl;
     Symbol* temp = new Symbol(name, type);
     int width = 4;
     // temp -> setId(this->root->symbolCount++);
@@ -96,13 +97,14 @@ int SymbolTable::insertSymbol(std::string name, Type type){
     // this->root->tatalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
-    return int(temp);
+    return temp;
 }
 
-int SymbolTable::insertArraySymbol(DefVarASTNode* arrayNode){
+Symbol* SymbolTable::insertArraySymbol(ASTNode* node){
+    DefVarASTNode* arrayNode = (DefVarASTNode*) node;
     std::string name = arrayNode -> getContent();
     if(this->findSymbol(name) != NULL)
-        return -1;
+        return NULL;
     Symbol* temp = new Symbol(name, Type::Array);
     Type itemType = arrayNode -> getSymbolType();
     //int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
@@ -113,7 +115,7 @@ int SymbolTable::insertArraySymbol(DefVarASTNode* arrayNode){
     // this->root->tatalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
-    return int(temp);
+    return temp;
 }
 
 void SymbolTable::setFather(SymbolTable* f){
@@ -134,6 +136,10 @@ SymbolTable* SymbolTable::getChild(){
 
 SymbolTable* SymbolTable::getBrother(){
     return this->brother;
+}
+
+SymbolTable* SymbolTable::getThisTable(){
+    return this;
 }
 
 // --------------------------------------------

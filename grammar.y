@@ -15,14 +15,11 @@
     extern char* yytext;
     extern FILE* yyin;
     ASTNode* root;
-    SymbolTable* rootTable;
-    SymbolTable* tempTable;
 %}
 
 %union{
     ASTNode* astNode;
     char* str;
-    int pt;
 }
 
 // right：右结合 -> 赋值 or 取非 or 取负数 or 取地址
@@ -69,8 +66,7 @@ prog:
         extDefList{
             root = new RootNode();
             root -> addChildNode($1);
-            rootTable = new SymbolTable(false, NULL);
-            tempTable = rootTable;
+            // tempTable = new SymbolTable(false, NULL);
         }
 ;
 
@@ -126,27 +122,42 @@ specifier:
 
 varDec:
         ID {
-            $$ = new DefVarASTNode($1);
-            yylval.pt = tempTable->insertSymbol($1,Type::int);
+            Symbol* result = tempTable->insertSymbol($1,Type::integer);
+            if(result!=NULL){
+                $$ = new DefVarASTNode($1);
+            } 
+            else{
+                yyerror((char*)"multi defined");
+            } 
         }
         | ID LBRAKET INT RBRAKET {
-            DefVarASTNode* var = new DefVarASTNode($1);
-            var -> setSymbolType((char*)"array",$3);
-            $$ = var;
-            yylval.pt = tempTable->insertArraySymbol(var);
+            ASTNode* node = new DefVarASTNode($1);
+            Symbol* result = tempTable->insertArraySymbol(node);
+            if(result!=NULL){
+                DefVarASTNode* var = (DefVarASTNode*) node;
+                var -> setSymbolType((char*)"array",$3);
+                $$ = var;
+            } 
+            else {
+                yyerror((char*)"multi defined");
+            }
         }
 ;
 
 // FuncDec VarList ParamDec
 
 compd:
-       LBRACE {tempTable = new SymbolTable(false, tempTable);} 
-        stmts {
-           ASTNode* node = new StmtASTNode(stmtType::compoundStmt);
-           node -> addChildNode($2);
-           $$ = node;
+       LBRACE {
+            tempTable = new SymbolTable(false, tempTable);
+            flagTable = tempTable;
         } 
-        RBRACE {tempTable = tempTable.getFather();} 
+        stmts RBRACE{
+           ASTNode* node = new StmtASTNode(stmtType::compoundStmt);
+           node -> addChildNode($3);
+           $$ = node;
+           tempTable = tempTable->getFather();
+           flagTable = tempTable;
+        }
        | error RBRACE {
            yyerrok;
        }
@@ -385,7 +396,13 @@ expr:
             $$=temp;
         }
         | ID {
-            $$ = new VarASTNode($1);
+            flagTable = tempTable->findSymbol($1);
+            if(flagTable!=NULL){
+                $$ = new VarASTNode($1);
+            }
+            else{
+                yyerror((char*)"use variable undifined");
+            }
         }
         | INT {
             $$ = new LiteralASTNode($1);
@@ -398,7 +415,7 @@ expr:
 %%
 
 int yyerror(char* s){
-    printf("Syntax error on line %s\n", s);
+    printf("Syntax error: %s\n", s);
     return 1;
 }
 
