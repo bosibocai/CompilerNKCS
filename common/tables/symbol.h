@@ -70,8 +70,13 @@ public:
     Symbol* insertSymbol(std::string name, Type type);
     // 如果符号表项是一个数组：传参直接是结点的指针
     Symbol* insertArraySymbol(ASTNode* node);
+<<<<<<< HEAD
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
+=======
+    Symbol* findSymbol(std::string name);
+    Symbol* findSymbolinThisTable(std::string name);
+>>>>>>> 2db958b50486c511a365f94e2bafb72a4d88c689
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     SymbolTable* getFather();
