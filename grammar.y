@@ -147,12 +147,16 @@ varDec:
 // FuncDec VarList ParamDec
 
 compd:
-       LBRACE {tempTable = new SymbolTable(false, tempTable);} 
+       LBRACE {
+            tempTable = new SymbolTable(false, tempTable);
+            flagTable = tempTable;
+        } 
         stmts RBRACE{
            ASTNode* node = new StmtASTNode(stmtType::compoundStmt);
            node -> addChildNode($3);
            $$ = node;
            tempTable = tempTable->getFather();
+           flagTable = tempTable;
         }
        | error RBRACE {
            yyerrok;
@@ -392,8 +396,8 @@ expr:
             $$=temp;
         }
         | ID {
-            Symbol* result = tempTable->findSymbolinThisTable($1);
-            if(result!=NULL){
+            flagTable = tempTable->findSymbol($1);
+            if(flagTable!=NULL){
                 $$ = new VarASTNode($1);
             }
             else{

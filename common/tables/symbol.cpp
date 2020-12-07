@@ -64,18 +64,18 @@ SymbolTable::SymbolTable(bool isFun, SymbolTable* father){
     this -> isFun = isFun;
 }
 
-Symbol* SymbolTable::findSymbolinThisTable(std::string name){
+SymbolTable* SymbolTable::findSymbolinThisTable(std::string name){
     std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.find(name);
     if(it!=this->symbolHash.end())
-        return it->second;
+        return this;
     else
         return NULL;
 }
 
-Symbol* SymbolTable::findSymbol(std::string name){
+SymbolTable* SymbolTable::findSymbol(std::string name){
     SymbolTable* temp = this;
     while(temp != NULL){
-        Symbol* flag = temp->findSymbolinThisTable(name);
+        SymbolTable* flag = temp->findSymbolinThisTable(name);
         if(flag==NULL)
             temp = temp->father;
         else

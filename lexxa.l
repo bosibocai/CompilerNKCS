@@ -30,7 +30,7 @@ else             {printf("ELSE           %s\n",yytext);return(ELSE);}
 while            {printf("WHILE          %s\n",yytext);return(WHILE);}
 for              {printf("FOR            %s\n",yytext);return(FOR);}
 {id}             {yylval.str=strdup(yytext);
-                  printf("ID             %s           %ld\n",yytext,tempTable);
+                  printf("ID             %s           %ld\n",yytext,flagTable);
                   return(ID);
                  }
 {num}            {yylval.str=strdup(yytext);printf("INT            %s           %s\n",yytext,yylval.str);return(INT);}
