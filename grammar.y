@@ -5,8 +5,8 @@
     #include <fstream>
     #include <cstring>
     #include <string.h>
-
     #include "../common/tools.h"
+    #include "../common/util.h"
     
     class ASTNode;
     extern int yylex();
@@ -419,6 +419,21 @@ int yyerror(char* s){
     return 1;
 }
 
+std::string replaceExtName(char* fileName) {
+    int dotIndex = 0;
+    int nameLength = strlen(fileName);
+    for (int i = nameLength - 1; i >= 0; i--) {
+        if (fileName[i] == '.') {
+            dotIndex = i;
+            break;
+        }
+    }
+    char* buf = new char[dotIndex];
+    strncpy(buf, fileName, dotIndex);
+    std::string rev(buf);
+    rev += ".asm";
+    return rev;
+}
 
 // 暂时没有那么多可选参数，只能从头开始运行
 int main(int argc, char* argv[]){
@@ -439,7 +454,24 @@ int main(int argc, char* argv[]){
     }
 
     root->printTree();
-        
+    
+    InterMediate* im = new InterMediate((RootNode *)root);
+    im->Generate(im->getRoot(), im->getTable());
+    
+    im->printQuads();
+    
+    AsmGenerator* asmgenerator = new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());
+    asmgenerator->generate();
+    
+    std::cout << asmgenerator->getAsmCode();
+    
+
+    std::string outFileName = replaceExtName(filename);
+    std::ofstream outasm(outFileName);
+    outasm << asmgenerator->getAsmCode();
+    return 0;
+
+    
 
     return 0;
 }

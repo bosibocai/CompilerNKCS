@@ -72,12 +72,16 @@ public:
     Symbol* insertArraySymbol(ASTNode* node);
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
+    Symbol* find_symbol_return_symble(std::string name);
+    Symbol* find_symbol_in_table_return_symble(std::string name);
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
+    void setBrother(SymbolTable* b);
     SymbolTable* getFather();
     SymbolTable* getChild();
     SymbolTable* getBrother();
     SymbolTable* getThisTable();
+    SymbolTable *createChildTable(bool isFun);
 };
 
 // --------------------------------------------
