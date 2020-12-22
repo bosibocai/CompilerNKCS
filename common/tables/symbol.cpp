@@ -64,6 +64,7 @@ SymbolTable::SymbolTable(bool isFun, SymbolTable* father){
     this -> isFun = isFun;
 }
 
+// 返回符号表，词法分析要输出的列表里面用的是符号表的地址
 SymbolTable* SymbolTable::findSymbolinThisTable(std::string name){
     std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.find(name);
     if(it!=this->symbolHash.end())
@@ -84,6 +85,33 @@ SymbolTable* SymbolTable::findSymbol(std::string name){
     std::cout<<"variable "<<name<<" is undefined"<<std::endl;
     return NULL;
 }
+
+// 返回符号，中间代码生成需要用到符号
+Symbol* SymbolTable::find_symbol_in_table_return_symble(std::string name){
+    std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.find(name);
+    if(it!=this->symbolHash.end())
+        return it->second;
+    else
+        return NULL;
+}
+
+Symbol* SymbolTable::find_symbol_return_symble(std::string name){
+    SymbolTable* temp = this;
+    while(temp != NULL){
+        SymbolTable* flag = temp->findSymbolinThisTable(name);
+        if(flag==NULL)
+            temp = temp->father;
+        else
+            return flag->find_symbol_in_table_return_symble(name);
+    }
+    std::cout<<"variable "<<name<<" is undefined"<<std::endl;
+    return NULL;
+}
+
+
+
+
+
 
 Symbol* SymbolTable::insertSymbol(std::string name, Type type){
     if(this->findSymbolinThisTable(name)!=NULL)
@@ -126,6 +154,11 @@ void SymbolTable::setChild(SymbolTable* c){
     this->child = c;
 }
 
+void SymbolTable::setBrother(SymbolTable* b){
+    this->brother = b;
+}
+
+
 SymbolTable* SymbolTable::getFather(){
     return this->father;
 }
@@ -142,6 +175,28 @@ SymbolTable* SymbolTable::getThisTable(){
     return this;
 }
 
+SymbolTable *SymbolTable::createChildTable(bool isFun)
+{
+    SymbolTable *child = new SymbolTable(isFun,this);
+    if (this->getChild() == NULL)
+        this->setChild(child);
+    else if (this->getChild()->getBrother() == NULL)
+    {
+        this->getChild()->getBrother()->setBrother(child);
+    }
+    else
+    {
+        SymbolTable *brother = this->getChild()->getBrother();
+        while (brother != NULL)
+        {
+            if (brother->getBrother() == NULL)
+                break;
+            brother = brother->getBrother();
+        }
+        brother->getBrother()->setBrother(child);
+    }
+    return child;
+}
 // --------------------------------------------
 // Root类：根符号表，树中根节点
 // 对应main()函数
