@@ -1,6 +1,6 @@
 #ifndef UTIL
 #define UTIL
-#include "./util/AsmCode.h"
+// #include "./util/AsmCode.h"
 #include "./util/AsmGenerator.h"
 #include "./util/error.h"
 #include "./util/InterMediate.h"

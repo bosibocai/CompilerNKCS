@@ -6,9 +6,11 @@
     #include <cstring>
     #include <string.h>
     #include "../common/tools.h"
-    #include "../common/util.h"
+    #include "../common/util/InterMediate.h"
+    #include "../common/util/AsmGenerator.h"
     
     class ASTNode;
+    
     extern int yylex();
     int yyerror(char* s);
 
@@ -473,5 +475,5 @@ int main(int argc, char* argv[]){
 
     
 
-    return 0;
+    /* return 0; */
 }

@@ -65,7 +65,7 @@ protected:
     bool isFun;
     
 public:
-    SymbolTable();
+    inline SymbolTable() {};
     SymbolTable(bool isFun, SymbolTable* father);
     Symbol* insertSymbol(std::string name, Type type);
     // 如果符号表项是一个数组：传参直接是结点的指针

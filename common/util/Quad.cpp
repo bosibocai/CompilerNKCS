@@ -199,24 +199,24 @@ std::string Quad::printOp()
         return " GET_ADDRESS  ";
     case OpCode::ASSIGN_POINTER:
         return "ASSIGN_POINTER";
-    case OpCode::PARAM:
-        return "    PARAM     ";
-    case OpCode::CALL:
-        return "     CALL     ";
-    case OpCode::RETURN:
-        return "    RETURN    ";
-    case OpCode::FUNC_DEF:
-        return "   FUNC_DEF   ";
-    case OpCode::END_FUNCTION:
-        return " END_FUNCTION ";
+    // case OpCode::PARAM:
+    //     return "    PARAM     ";
+    // case OpCode::CALL:
+    //     return "     CALL     ";
+    // case OpCode::RETURN:
+    //     return "    RETURN    ";
+    // case OpCode::FUNC_DEF:
+    //     return "   FUNC_DEF   ";
+    // case OpCode::END_FUNCTION:
+    //     return " END_FUNCTION ";
     case OpCode::LABEL:
         return "     LABEL    ";
     case OpCode::GET_VALUE:
         return "  GET_VALUE   ";
     case OpCode::GET_ARRAY:
         return "  GET_ARRAY   ";
-    case OpCode::GET_STRUCT:
-        return "  GET_STRUCT  ";
+    // case OpCode::GET_STRUCT:
+    //     return "  GET_STRUCT  ";
     default:
         break;
     }
