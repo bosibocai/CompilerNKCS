@@ -1042,39 +1042,43 @@ void AsmGenerator::generate() {
     for (size_t i = 0; i < this->quads.size(); i++) {
         Quad& q = quads[i];
         OpCode opcode = q.getOpCode();
-        if (opcode == OpCode::FUNC_DEF) {
-            if (currentTable == rootTable) {
-                currentTable = currentTable->getChild();
-            } else {
-                currentTable = currentTable->getBrother();
-            }
-            this->generateDefFunction(q);
-        }
-        else if (opcode == OpCode::PLUS || opcode == OpCode::MINUS ||
+        // if (opcode == OpCode::FUNC_DEF) {
+        //     if (currentTable == rootTable) {
+        //         currentTable = currentTable->getChild();
+        //     } else {
+        //         currentTable = currentTable->getBrother();
+        //     }
+        //     this->generateDefFunction(q);
+        // }
+        // else 
+        if (opcode == OpCode::PLUS || opcode == OpCode::MINUS ||
                  opcode == OpCode::DIV || opcode == OpCode::TIMES ||
                  opcode == OpCode::ASSIGN || opcode == OpCode::MOD) {
             this->generateArithmetic(q);
         }
-        else if (opcode == OpCode::PARAM) {
-            Quad& next = quads[i + 1];
-            if (next.getOpCode() == OpCode::CALL) {
-                if (next.getArg(1).var->getName() == "print_int_i" || 
-                    next.getArg(1).var->getName() == "read_int_i") {
-                        this->generateCallBuildInFunction(next, q);
-                        i = i + 1;
-                        continue;
-                    }
-            }
-            // Push the args to stack
-            this->generateSetArg(q);
-        }
-        else if (opcode == OpCode::CALL) {
-            this->generateCallFunction(q);
-        } else if (opcode == OpCode::END_FUNCTION) {
-            this->generateEndFunction(q);
-        } else if (opcode == OpCode::RETURN) {
-            this->generateReturn(q);
-        } else if (opcode == OpCode::LABEL) {
+        // else if (opcode == OpCode::PARAM) {
+        //     Quad& next = quads[i + 1];
+        //     if (next.getOpCode() == OpCode::CALL) {
+        //         if (next.getArg(1).var->getName() == "print_int_i" || 
+        //             next.getArg(1).var->getName() == "read_int_i") {
+        //                 this->generateCallBuildInFunction(next, q);
+        //                 i = i + 1;
+        //                 continue;
+        //             }
+        //     }
+        //     // Push the args to stack
+        //     this->generateSetArg(q);
+        // }
+        // else if (opcode == OpCode::CALL) {
+        //     this->generateCallFunction(q);
+        // } 
+        // else if (opcode == OpCode::END_FUNCTION) {
+        //     this->generateEndFunction(q);
+        // } 
+        // else if (opcode == OpCode::RETURN) {
+        //     this->generateReturn(q);
+        // } 
+        else if (opcode == OpCode::LABEL) {
             int labelIndex = q.getArg(1).target;
             this->asmcode.label("label" + std::to_string(labelIndex));
         } else if (this->isJumpQuad(opcode)) {
@@ -1085,11 +1089,14 @@ void AsmGenerator::generate() {
             this->generateNeg(q);
         } else if (opcode == OpCode::GET_ADDRESS) {
             this->generateGetAddress(q);
-        } else if (opcode == OpCode::ASSIGN_STRUCT) {
-            this->generateAssignMember(q);
-        } else if (opcode == OpCode::GET_STRUCT) {
-            this->generateGetMember(q);
-        } else if (opcode == OpCode::ASSIGN_ARRAY || opcode == OpCode::ASSIGN_POINTER) {
+        } 
+        // else if (opcode == OpCode::ASSIGN_STRUCT) {
+        //     this->generateAssignMember(q);
+        // } 
+        // else if (opcode == OpCode::GET_STRUCT) {
+        //     this->generateGetMember(q);
+        // } 
+        else if (opcode == OpCode::ASSIGN_ARRAY || opcode == OpCode::ASSIGN_POINTER) {
             this->generateAssignArray(q);
         } else if (opcode == OpCode::GET_ARRAY || opcode == OpCode::GET_VALUE) {
             this->generateGetArrayValue(q);

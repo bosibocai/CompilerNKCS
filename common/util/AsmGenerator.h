@@ -98,6 +98,7 @@ private:
     bool isJumpQuad(OpCode code);
 public:
     inline AsmCode& getAsmCode() { return this->asmcode; }
+    // AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());
     AsmGenerator(std::vector<Quad>& quads, std::vector<Symbol*>& tempVar, SymbolTable* rootTable);
     void generate();
 };

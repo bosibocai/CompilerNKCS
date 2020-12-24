@@ -55,15 +55,15 @@ enum class OpCode
     ASSIGN_STRUCT,
     ASSIGN_POINTER,
     GET_ADDRESS,
-    PARAM,
-    CALL,
+    // PARAM,
+    // CALL,
     RETURN,
-    FUNC_DEF,
-    END_FUNCTION,
+    // FUNC_DEF,
+    // END_FUNCTION,
     LABEL,
     GET_VALUE,
     GET_ARRAY,
-    GET_STRUCT
+    // GET_STRUCT
 };
 
 union Arg {// arg是联合类型，可以代表一个符号或者一个变量

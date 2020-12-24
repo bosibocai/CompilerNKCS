@@ -427,12 +427,12 @@ SymbolTable *InterMediate::GenerateReturn(StmtASTNode *node, SymbolTable *symbol
         Symbol *arg1 = this->GenerateOp((OpASTNode *)p, symbolTable);
         temp = new Quad(OpCode::RETURN, arg1, result);
     }
-    else if (p->getNodeType() == ASTNodeType::callFunc)
-    {
-        Generate(p, symbolTable);
-        Symbol *arg1 = tempVar.back();
-        temp = new Quad(OpCode::RETURN, arg1, (Symbol *)NULL);
-    }
+    // else if (p->getNodeType() == ASTNodeType::callFunc)
+    // {
+    //     Generate(p, symbolTable);
+    //     Symbol *arg1 = tempVar.back();
+    //     temp = new Quad(OpCode::RETURN, arg1, (Symbol *)NULL);
+    // }
     else
     {
         std::cout << "\033[31mError: \033[0m"
