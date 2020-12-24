@@ -5,9 +5,9 @@
     #include <fstream>
     #include <cstring>
     #include <string.h>
-    #include "../common/tools.h"
-    #include "../common/util/InterMediate.h"
-    #include "../common/util/AsmGenerator.h"
+    #include <iostream>
+    #include "../in.h"
+    
     
     class ASTNode;
     
@@ -436,12 +436,16 @@ std::string replaceExtName(char* fileName) {
     rev += ".asm";
     return rev;
 }
+/* class InterMediate;
+class AsmGenerator; */
 
 // 暂时没有那么多可选参数，只能从头开始运行
 int main(int argc, char* argv[]){
     char* filename = NULL;
-    printf(argv[1]);
+    InterMediate* im;
+    /* printf(argv[1]); */
     if(argc>=2){
+        printf(argv[1]);
         filename = argv[1];
     }
     printf("%s\n",filename);
@@ -456,21 +460,18 @@ int main(int argc, char* argv[]){
     }
 
     root->printTree();
-    
-    InterMediate* im = new InterMediate((RootNode *)root);
+    im = new InterMediate((RootNode *)root);
     im->Generate(im->getRoot(), im->getTable());
-    
     im->printQuads();
+    AsmGenerator * asmgenera ;
+    asmgenera =  new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());
+    asmgenera->generate();
     
-    AsmGenerator* asmgenerator = new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());
-    asmgenerator->generate();
+    std::cout << asmgenera->getAsmCode();
     
-    std::cout << asmgenerator->getAsmCode();
-    
-
     std::string outFileName = replaceExtName(filename);
     std::ofstream outasm(outFileName);
-    outasm << asmgenerator->getAsmCode();
+    outasm << asmgenera->getAsmCode();
     return 0;
 
     
