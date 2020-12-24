@@ -7,13 +7,12 @@
     #include <string.h>
     #include <iostream>
     #include "../in.h"
-    
-    
+    #include "../common/util/AsmGenerator.h"
+    #include "../common/util/InterMediate.h"
+    #include "../common/tools.h"
     class ASTNode;
-    
     extern int yylex();
     int yyerror(char* s);
-
     extern char* yytext;
     extern FILE* yyin;
     ASTNode* root;
@@ -458,7 +457,6 @@ int main(int argc, char* argv[]){
     {
         yyparse();
     }
-
     root->printTree();
     im = new InterMediate((RootNode *)root);
     im->Generate(im->getRoot(), im->getTable());
@@ -466,15 +464,9 @@ int main(int argc, char* argv[]){
     AsmGenerator * asmgenera ;
     asmgenera =  new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());
     asmgenera->generate();
-    
     std::cout << asmgenera->getAsmCode();
-    
     std::string outFileName = replaceExtName(filename);
     std::ofstream outasm(outFileName);
     outasm << asmgenera->getAsmCode();
     return 0;
-
-    
-
-    /* return 0; */
 }

@@ -7,8 +7,9 @@ then
 else
     make grammar
     make parser
+    make build
     cd output
-    make 
+    make all
 fi
 )
 
