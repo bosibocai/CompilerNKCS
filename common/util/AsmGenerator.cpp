@@ -171,17 +171,17 @@ std::ostream& operator<<(std::ostream& os, const AsmCode& code) {
     return os;
 }
 
-// AsmGenerator::AsmGenerator(std::vector<Quad>& quads, std::vector<Symbol*>& tempVar, SymbolTable* rootTable, FuncTable& funcTable) {
-//     this->quads = quads;
-//     this->tempVar = tempVar;
-//     this->rootTable = rootTable;
-//     this->funcTable = funcTable;
-//     this->preSetLabel();
-//     eax = 0;
-//     ebx = 0;
-//     ecx = 0;
-//     edx = 0;
-// }
+AsmGenerator::AsmGenerator(std::vector<Quad>& quads, std::vector<Symbol*>& tempVar, SymbolTable* rootTable) {
+    this->quads = quads;
+    this->tempVar = tempVar;
+    this->rootTable = rootTable;
+    // this->funcTable = funcTable;
+    this->preSetLabel();
+    eax = 0;
+    ebx = 0;
+    ecx = 0;
+    edx = 0;
+}
 
 void AsmGenerator::releaseRegister(asmRegister reg) {
     if (reg == asmRegister::ebx) {

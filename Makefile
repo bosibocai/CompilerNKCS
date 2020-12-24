@@ -30,7 +30,7 @@ endif
 	$(CXX) -c $< -o $@ -std=$(CXXVER) -g
 
 clean:
-	rm -rf  ./output/lexxa* $(OBJ) $(PROGRAM) $(MEDIA) $(TAB)
+	rm -rf  ./output/lexxa* ./output/test ./output/asm_io* ./output/parser $(OBJ) $(PROGRAM) $(MEDIA) $(TAB)
 
 
 build:
@@ -42,8 +42,8 @@ ifeq ($(BUILDIOEXIST),notexist)
 endif
 	$(NASM) -f elf -d ELF_TYPE common/util/io/asm_io.asm -o common/util/io/asm_io.o
 	cp $(PROGRAM) $(BUILDFOLDER)
-	cp common/util/io/asm_io.o $(BUILDIO)
-	cp common/util/io/asm_io.inc $(BUILDIO)
+	cp common/util/io/asm_io.o $(BUILDFOLDER)
+	cp common/util/io/asm_io.inc $(BUILDFOLDER)
 	cp -r test/ $(BUILDFOLDER)
 	# cp example/Makefile $(BUILDFOLDER)
 
