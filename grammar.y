@@ -568,15 +568,26 @@ int main(int argc, char* argv[]){
         yyparse();
     }
     root->printTree();
+    std::cout << "root->printTree();" << std::endl;
     im = new InterMediate((RootNode *)root);
+    std::cout << "new InterMediate((RootNode *)root);" << std::endl;
     im->Generate(im->getRoot(), im->getTable());
+    std::cout << " !!!!!!!!!!!!!!!! im->Generate(im->getRoot(), im->getTable());" << std::endl;
     im->printQuads();
+    std::cout << "im->printQuads();" << std::endl;
     AsmGenerator * asmgenera ;
+    std::cout << " AsmGenerator * asmgenera ;" << std::endl;
     asmgenera =  new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());
+    std::cout << "new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());" << std::endl;
     asmgenera->generate();
+    std::cout <<"generate!!!!!!!!!!!!!!" <<std::endl;
     std::cout << asmgenera->getAsmCode();
+    std::cout << "asmgenera->getAsmCode();" << std::endl;
     std::string outFileName = replaceExtName(filename);
+    std::cout << "replaceExtName(filename);" << std::endl;
     std::ofstream outasm(outFileName);
+    std::cout << "new InterMediate((RootNode *)root);" << std::endl;
     outasm << asmgenera->getAsmCode();
+    std::cout << "new InterMediate((RootNode *)root);" << std::endl;
     return 0;
 }

@@ -82,7 +82,7 @@ SymbolTable* SymbolTable::findSymbol(std::string name){
         else
             return flag;
     }
-    std::cout<<"variable "<<name<<" is undefined"<<std::endl;
+    std::cout<<"variable(findSymbol) "<<name<<" is undefined"<<std::endl;
     return NULL;
 }
 
@@ -104,7 +104,7 @@ Symbol* SymbolTable::find_symbol_return_symble(std::string name){
         else
             return flag->find_symbol_in_table_return_symble(name);
     }
-    std::cout<<"variable "<<name<<" is undefined"<<std::endl;
+    std::cout<<"variable(find_symbol_return_symble) "<<name<<" is undefined"<<std::endl;
     return NULL;
 }
 
@@ -116,15 +116,18 @@ Symbol* SymbolTable::find_symbol_return_symble(std::string name){
 Symbol* SymbolTable::insertSymbol(std::string name, Type type){
     if(this->findSymbolinThisTable(name)!=NULL)
         return NULL;
-    std::cout<<"variable "<<name<<" is undefined"<<std::endl;
+    std::cout<<"variable(insertSymbol) "<<name<<" is undefined"<<std::endl;
     Symbol* temp = new Symbol(name, type);
+    std::cout<< "temp new symbol" << std::endl;
     int width = 4;
     // temp -> setId(this->root->symbolCount++);
     temp -> setWidth(width);
+    std::cout<< "setWidth(width);" << std::endl;
     // temp -> setOffset(this->root->tatalOffset);
     // this->root->tatalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
+    std::cout<< "symbolHash[name]" << std::endl;
     return temp;
 }
 

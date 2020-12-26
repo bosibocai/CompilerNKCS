@@ -19,6 +19,12 @@ enum class ASTNodeType
 
 };
 
+//   std::ostream& operator<<(std::ostream& os, const ASTNodeType& astnodetype){
+//       os << astnodetype;
+//         return os;
+//   }
+
+
 /*
     其他节点都继承自该节点，其中声明节点包括声明函数和声明变量需要链接symbol
     nodeType在初始化时赋值，继承ASTNode初始化函数

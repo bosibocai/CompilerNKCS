@@ -1,6 +1,7 @@
 #include "InterMediate.h"
 #include <typeinfo>
 #include <cstdio>
+using namespace std;
 InterMediate::InterMediate(RootNode *rootNode)
 
 {
@@ -21,6 +22,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
     }
        
     ASTNode *p = node->getChild();
+    std::cout <<"identifier node type ~!!!!!!!!!!!!!!!!!!!!!!!!!!!!" <<  (int)node->getNodeType() << std::endl;
     switch (node->getNodeType())
     {
     // case ASTNodeType::defFunc:
@@ -132,6 +134,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
     //     Quad *temp = new Quad(OpCode::CALL, funcSymbol, count, tempV);
     //     this->quads.push_back(*temp);
     // }
+
     case ASTNodeType::literal:
     {
         if (node->getParent()->getNodeType() == ASTNodeType::op)
@@ -153,6 +156,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         }
         break;
     }
+    
     case ASTNodeType::op:
     {
         if (((OpASTNode *)node)->getType() == opType::andop || ((OpASTNode *)node)->getType() == opType::orop)
@@ -172,6 +176,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         this->GenerateOp((OpASTNode *)node, symbolTable);
         break;
     }
+    
     case ASTNodeType::stmt:
     {
         StmtASTNode *ret = (StmtASTNode *)node;
@@ -189,6 +194,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         }
         break;
     }
+    
     case ASTNodeType::defVar:
     {
         DefVarASTNode *tempNode = (DefVarASTNode *)node;
@@ -208,11 +214,15 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         Symbol *varSymbol = symbolTable->find_symbol_return_symble(node->getContent());
         if (p != NULL)
         {
+            
             Quad *temp;
+            cout << "p ! = null, p =====" << (int)p->getNodeType() << endl;
             if (p->getNodeType() == ASTNodeType::literal)
             {
                 int arg1 = std::stoi(p->getContent());
+                cout << "stoi" << endl; 
                 temp = new Quad(OpCode::ASSIGN, arg1, varSymbol);
+                cout <<"temp new Quad" << endl;
             }
             else if (p->getNodeType() == ASTNodeType::callVar)
             {
@@ -236,10 +246,14 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
                           << "Type error" << std::endl;
                 exit(1);
             }
+
             this->quads.push_back(*temp);
+            cout <<"this->quads.push_back(*temp);" <<endl;
         }
+        cout << "break" << endl;
         break;
     }
+    
     case ASTNodeType::callVar:
     {
         if (node->getParent()->getNodeType() == ASTNodeType::op)
@@ -262,6 +276,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         }
         break;
     }
+    
     case ASTNodeType::loop: // for(1.DefASTNODE, 2.OperatorASTNODE, 3.OperatorASTNODE, 4.StmtASTNODE)
     {
         LoopASTNode *loop = (LoopASTNode *)node;
@@ -310,6 +325,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         }
         break;
     }
+    
     case ASTNodeType::conditional: // Just IF and ELSE.
     {
         ConditionalASTNode *select = (ConditionalASTNode *)node;
@@ -340,15 +356,20 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         }
         break;
     }
+    // 这个很重要。一开始进入是root，然后进行递归
     case ASTNodeType::root:
     {
+        int i = 0;
         while (p != NULL)
         {
             Generate(p, symbolTable);
+            cout << "递归" << i << endl;
             p = p->getBrother();
+            cout <<"p_note" << (int) p->getNodeType() << endl;
         }
         break;
     }
+
     default:
         std::cout << "Hello! Something Wrong happened!\n";
         break;

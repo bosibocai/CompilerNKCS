@@ -2,9 +2,17 @@ CC = gcc
 NASM = nasm
 PROGRAM = ./parser
 BUILDFOLDER = .
+OBJ = $(SRC:%.cpp=%.o)
+MEDIA = $(shell find ../ -name "*.o")
+TAB = $(shell find ../ -name "*.tab.*")
+clean:
+	rm -rf  lexxa* test asm_io* parser $(OBJ)  $(MEDIA) $(TAB)
+
+
 all: array error  hello loop_test print_test simple
 
-array: $(BUILDFOLDER)/test/array.c
+array: 
+	
 	$(PROGRAM) $(BUILDFOLDER)/test/array.c
 	$(NASM) -f elf $(BUILDFOLDER)/test/array.asm -o $(BUILDFOLDER)/array.o
 	$(CC) -o $(BUILDFOLDER)/array $(BUILDFOLDER)/array.o $(BUILDFOLDER)/io/asm_io.o -m32

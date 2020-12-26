@@ -87,6 +87,7 @@ Quad::Quad(OpCode op, int arg1, Symbol *result)
     this->arg1.target = arg1;
     this->arg2.var = NULL;
     this->result.var = result;
+    
     this->flag = 6;
 }
 
