@@ -87,7 +87,7 @@ SymbolTable* SymbolTable::findSymbol(std::string name){
 }
 
 // 返回符号，中间代码生成需要用到符号
-Symbol* SymbolTable::find_symbol_in_table_return_symble(std::string name){
+Symbol* SymbolTable::find_symbol_in_table_return_symbol(std::string name){
     std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.find(name);
     if(it!=this->symbolHash.end())
         return it->second;
@@ -95,22 +95,18 @@ Symbol* SymbolTable::find_symbol_in_table_return_symble(std::string name){
         return NULL;
 }
 
-Symbol* SymbolTable::find_symbol_return_symble(std::string name){
+Symbol* SymbolTable::find_symbol_return_symbol(std::string name){
     SymbolTable* temp = this;
     while(temp != NULL){
         SymbolTable* flag = temp->findSymbolinThisTable(name);
         if(flag==NULL)
             temp = temp->father;
         else
-            return flag->find_symbol_in_table_return_symble(name);
+            return flag->find_symbol_in_table_return_symbol(name);
     }
     std::cout<<"variable(find_symbol_return_symble) "<<name<<" is undefined"<<std::endl;
     return NULL;
 }
-
-
-
-
 
 
 Symbol* SymbolTable::insertSymbol(std::string name, Type type){
@@ -178,40 +174,40 @@ SymbolTable* SymbolTable::getThisTable(){
     return this;
 }
 
-SymbolTable *SymbolTable::createChildTable(bool isFun)
-{
-    SymbolTable *child = new SymbolTable(isFun,this);
-    if (this->getChild() == NULL)
-        this->setChild(child);
-    else if (this->getChild()->getBrother() == NULL)
-    {
-        this->getChild()->getBrother()->setBrother(child);
-    }
-    else
-    {
-        SymbolTable *brother = this->getChild()->getBrother();
-        while (brother != NULL)
-        {
-            if (brother->getBrother() == NULL)
-                break;
-            brother = brother->getBrother();
+SymbolTable *SymbolTable::createChildTable(bool isFun){
+    SymbolTable* childTable = new SymbolTable(isFun, this);
+    std::cout<<"new a child symbol table"<<std::endl;
+    if(this->getChild()!=NULL){
+        std::cout<<"first child not NULL, now finding brother teble"<<std::endl;
+        if(this->getChild()->getBrother()!=NULL){
+            SymbolTable* brotherTable = this->getChild()->getBrother();
+            while(brotherTable!=NULL)
+                brotherTable = brotherTable->getBrother();
+            brotherTable->setBrother(childTable);
         }
-        brother->getBrother()->setBrother(child);
+        else{
+            this->getChild()->getBrother()->setBrother(childTable);
+        }
     }
-    return child;
+    else{
+        std::cout<<"first child is NULL"<<std::endl;
+        this->setChild(childTable);
+    }
+    return childTable;
 }
+
 // --------------------------------------------
 // Root类：根符号表，树中根节点
 // 对应main()函数
 // 除符号表功能外，根符号表维护所有符号的vector
 // 所有符号的vector功能未知……先跟着学长写吧，说不定后面会用到
 // --------------------------------------------
-// Root::Root(){
-//     this -> father = NULL;
-//     this -> root = this;
-//     this -> child = NULL;
-//     this -> brother = NULL;
-//     // Root为main函数，此时isFun为true
-//     this -> isFun = true;
-//     this -> symbols = new std::vector<Symbol*>();
-// }
+RootTable::RootTable(){
+    this -> father = NULL;
+    this -> root = this;
+    this -> child = NULL;
+    this -> brother = NULL;
+    // Root为main函数，此时isFun为true
+    this -> isFun = true;
+    this -> symbols = new std::vector<Symbol*>();
+}

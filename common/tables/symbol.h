@@ -72,8 +72,8 @@ public:
     Symbol* insertArraySymbol(ASTNode* node);
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
-    Symbol* find_symbol_return_symble(std::string name);
-    Symbol* find_symbol_in_table_return_symble(std::string name);
+    Symbol* find_symbol_return_symbol(std::string name);
+    Symbol* find_symbol_in_table_return_symbol(std::string name);
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     void setBrother(SymbolTable* b);
@@ -90,12 +90,12 @@ public:
 // 除符号表功能外，根符号表维护所有符号的vector
 // 所有符号的vector功能未知……先跟着学长写吧，说不定后面会用到
 // --------------------------------------------
-class Root: public SymbolTable{
+class RootTable: public SymbolTable{
 public:
     int symbolCount;
     int tatalOffset;
     std::vector<Symbol*> *symbols;
-    Root();
+    RootTable();
 };
 
 
