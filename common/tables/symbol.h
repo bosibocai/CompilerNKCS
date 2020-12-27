@@ -74,6 +74,8 @@ public:
     SymbolTable* findSymbolinThisTable(std::string name);
     Symbol* find_symbol_return_symbol(std::string name);
     Symbol* find_symbol_in_table_return_symbol(std::string name);
+    Symbol* findSymbolfromRoot(std::string name);
+    SymbolTable* findSymbolfromRootReturnTable(std::string name);
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     void setBrother(SymbolTable* b);
