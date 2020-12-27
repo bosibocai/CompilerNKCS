@@ -252,7 +252,7 @@ compd:
        LBRACE {
             // tempTable: 指向当前符号表
             // flagTable: 找a具体在哪个table 
-            tempTable = tempTable.createChildTable(false);
+            tempTable = tempTable->createChildTable(false);
             flagTable = tempTable;
         } 
         stmts RBRACE{
