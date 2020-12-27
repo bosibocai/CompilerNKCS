@@ -16,6 +16,7 @@ enum class ASTNodeType
     loop=9,//循环
     conditional=10,//条件
     literal=11,//字面量
+    mainnode=12,//main函数节点
 
 };
 
