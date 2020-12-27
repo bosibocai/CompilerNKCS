@@ -77,11 +77,19 @@ public:
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     void setBrother(SymbolTable* b);
+    inline void getAllSymbol(){ 
+        std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.begin();
+	while(it != symbolHash.end()) {
+		std::cout<<it->first<<" "<<it->second->getName()<< std::endl;
+		it++;
+	}
+    }
     SymbolTable* getFather();
     SymbolTable* getChild();
     SymbolTable* getBrother();
     SymbolTable* getThisTable();
     SymbolTable *createChildTable(bool isFun);
+
 };
 
 // --------------------------------------------

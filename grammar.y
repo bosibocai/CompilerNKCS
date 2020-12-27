@@ -569,7 +569,7 @@ int main(int argc, char* argv[]){
     }
     root->printTree();
     std::cout << "root->printTree();" << std::endl;
-    im = new InterMediate((RootNode *)root);
+    im = new InterMediate((RootNode *)root, flagTable);
     std::cout << "new InterMediate((RootNode *)root);" << std::endl;
     im->Generate(im->getRoot(), im->getTable());
     std::cout << " !!!!!!!!!!!!!!!! im->Generate(im->getRoot(), im->getTable());" << std::endl;

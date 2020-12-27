@@ -1,7 +1,7 @@
 #include <iostream>
 #include "symbol.h"
 #include "../trees/DefVarASTNode.h"
-
+using namespace std;
 
 // --------------------------------------------
 // Symbol类：符号，符号表中的每一项
@@ -70,7 +70,11 @@ SymbolTable* SymbolTable::findSymbolinThisTable(std::string name){
     if(it!=this->symbolHash.end())
         return this;
     else
-        return NULL;
+        {
+            cout << "findSymbolinThisTable  NULL" << endl;
+            return NULL;
+        }
+        
 }
 
 SymbolTable* SymbolTable::findSymbol(std::string name){
@@ -90,21 +94,35 @@ SymbolTable* SymbolTable::findSymbol(std::string name){
 Symbol* SymbolTable::find_symbol_in_table_return_symble(std::string name){
     std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.find(name);
     if(it!=this->symbolHash.end())
-        return it->second;
-    else
+        {
+            cout << "find_symbol_in_table_return_symble"<<it->second->getName()<<endl;
+            return it->second;
+        }
+    else{
+        cout << "find_symbol_in_table_return_symble NULL" << endl;
         return NULL;
+    }
+        
 }
 
 Symbol* SymbolTable::find_symbol_return_symble(std::string name){
     SymbolTable* temp = this;
+     std::cout <<"find_symbol_return_symble      "<< name << "  "  << std::endl;
+     temp->getAllSymbol();
     while(temp != NULL){
-        SymbolTable* flag = temp->findSymbolinThisTable(name);
+        Symbol* flag = temp->find_symbol_in_table_return_symble(name);
         if(flag==NULL)
+        {
             temp = temp->father;
+            cout << "father" << endl;
+            temp->getAllSymbol();
+        }
         else
-            return flag->find_symbol_in_table_return_symble(name);
+            return flag;
     }
-    std::cout<<"variable(find_symbol_return_symble) "<<name<<" is undefined"<<std::endl;
+    std::cout << "\033[31mError（find_symbol_return_symble）: \033[0m"
+              << "value " << name << " is not defined" << std::endl;
+    exit(1);
     return NULL;
 }
 
@@ -127,7 +145,7 @@ Symbol* SymbolTable::insertSymbol(std::string name, Type type){
     // this->root->tatalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
-    std::cout<< "symbolHash[name]" << std::endl;
+    std::cout<< "symbolHash[name]" << name << this->symbolHash[name]->getName() <<std::endl;
     return temp;
 }
 
@@ -180,23 +198,34 @@ SymbolTable* SymbolTable::getThisTable(){
 
 SymbolTable *SymbolTable::createChildTable(bool isFun)
 {
+
     SymbolTable *child = new SymbolTable(isFun,this);
+    cout << "createChildTable" << endl;
     if (this->getChild() == NULL)
-        this->setChild(child);
+    {
+         cout << "this->getChild() == NULL" << endl;
+         this->setChild(child);
+    }
     else if (this->getChild()->getBrother() == NULL)
     {
-        this->getChild()->getBrother()->setBrother(child);
+        // ????
+        cout << "this->getChild()->getBrother()" << endl;
+        this->getChild()->setBrother(child);
+        cout << "this->getChild()->getBrother(1)" << endl;
     }
     else
     {
+        // SymbolTable *brother = this->getChild()->getBrother();
         SymbolTable *brother = this->getChild()->getBrother();
+        cout << "this->getChild()->getBrother();" << endl;
         while (brother != NULL)
         {
             if (brother->getBrother() == NULL)
                 break;
             brother = brother->getBrother();
         }
-        brother->getBrother()->setBrother(child);
+        cout << " while (brother != NULL)" << endl;
+        brother->setBrother(child);
     }
     return child;
 }
