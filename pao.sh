@@ -9,7 +9,7 @@ else
     make parser
     make build
     cd output
-    make all
+    make array
 fi
 )
 

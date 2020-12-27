@@ -93,6 +93,43 @@ SymbolTable* SymbolTable::findSymbol(std::string name){
     return NULL;
 }
 
+Symbol* SymbolTable::findSymbolfromRoot(std::string name){
+    std::cout<<"find symbol from root"<<std::endl;
+    SymbolTable* temp = this;
+    while(temp->find_symbol_in_table_return_symbol(name)==NULL){
+        if(temp->getFather()==NULL){
+            temp = temp->getChild();
+        }
+        else{
+            if (temp->getBrother()!=NULL)
+                temp->getBrother();
+            else{
+                temp  = temp->getFather()->getChild()->getChild();
+            }
+        }
+    }
+    Symbol* s = temp->find_symbol_in_table_return_symbol(name);
+    return s;
+}
+
+
+SymbolTable* SymbolTable::findSymbolfromRootReturnTable(std::string name){
+    SymbolTable* temp = this;
+    while(temp->find_symbol_in_table_return_symbol(name)==NULL){
+        if(temp->getFather()==NULL){
+            temp = temp->getChild();
+        }
+        else{
+            if (temp->getBrother()!=NULL)
+                temp->getBrother();
+            else{
+                temp  = temp->getFather()->getChild()->getChild();
+            }
+        }
+    }
+    return temp;
+}
+
 // 返回符号，中间代码生成需要用到符号
 Symbol* SymbolTable::find_symbol_in_table_return_symbol(std::string name){
     std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.find(name);
@@ -137,7 +174,12 @@ Symbol* SymbolTable::find_symbol_return_symble(std::string name){
 
 Symbol* SymbolTable::insertSymbol(std::string name, Type type){
     if(this->findSymbolinThisTable(name)!=NULL)
+    {
+        std::cout << "findSymbolinThisTable insertSymbol \n" ;
+        this->findSymbolinThisTable(name)->getAllSymbol();
         return NULL;
+    }
+        
     std::cout<<"variable(insertSymbol) "<<name<<" is undefined"<<std::endl;
     Symbol* temp = new Symbol(name, type);
     std::cout<< "temp new symbol" << std::endl;
