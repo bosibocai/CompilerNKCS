@@ -33,7 +33,7 @@ public:
     // inline FuncTable &getFuncTable() { return this->funcTable; }
     inline std::vector<Quad> &getQuads() { return this->quads; }
     inline std::vector<Symbol *> &getTempVars() { return this->tempVar; }
-    InterMediate(RootNode *rootNode, SymbolTable* root);
+    InterMediate(RootNode *rootNode);
     void Generate(ASTNode *node, SymbolTable *symbolTable);
     // Create a child symbol table to generate follow code.
     SymbolTable *GenerateStmt(StmtASTNode *node, SymbolTable *symbolTable);

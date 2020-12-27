@@ -73,7 +73,7 @@ public:
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
     Symbol* find_symbol_return_symble(std::string name);
-    Symbol* find_symbol_in_table_return_symble(std::string name);
+    Symbol* find_symbol_in_table_return_symbol(std::string name);
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     void setBrother(SymbolTable* b);
@@ -98,13 +98,31 @@ public:
 // 除符号表功能外，根符号表维护所有符号的vector
 // 所有符号的vector功能未知……先跟着学长写吧，说不定后面会用到
 // --------------------------------------------
-class Root: public SymbolTable{
+class RootTable: public SymbolTable{
 public:
     int symbolCount;
     int tatalOffset;
     std::vector<Symbol*> *symbols;
-    Root();
-};
+    RootTable();
+    inline Symbol* fine_symbol_in_root( std::string name){
+    SymbolTable* t = this;
+   
+    while(t->getChild()!=NULL){
+        t->getAllSymbol();
+        if (t->find_symbol_in_table_return_symbol(name)!= NULL){
+            return t->find_symbol_in_table_return_symbol(name);
+        }else{
+            t = t-> getChild();
+        }
+    }
+     if (t->find_symbol_in_table_return_symbol(name)!= NULL){
+            return t->find_symbol_in_table_return_symbol(name);
+    }else{
+        std::cout << "fine_symbol_in_root is NULL" << std::endl;
+        return NULL;
+    }
 
+    }
+};
 
 #endif //!SYMBOL_TABLE

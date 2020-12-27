@@ -2,14 +2,14 @@
 #include <typeinfo>
 #include <cstdio>
 using namespace std;
-InterMediate::InterMediate(RootNode *rootNode, SymbolTable* root)
+InterMediate::InterMediate(RootNode *rootNode)
 {
     // 这个存放符号表的数组
     // std::vector<Symbol *> tempVar;
     // 翻转符号变量？
     tempVar.reserve(100);
     this->root = rootNode;
-    this->rootTable = root;
+    this->rootTable = new SymbolTable();
 }
 
 void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
@@ -225,6 +225,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
             {
                 // 又来递归
                 Generate(p, this->GenerateStmt((StmtASTNode *)node, symbolTable));
+                cout << "ASTNodeType::stmt:递归结束" << endl;
                 p = p->getBrother();
             }
         }
@@ -434,10 +435,17 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
 SymbolTable *InterMediate::GenerateStmt(StmtASTNode *node, SymbolTable *symbolTable)
 {
     std::cout << "GenerateStmt" << (int) node->getType() << endl; //compoundStmt=3,
+    // //语句类别，包括声明语句，表达式，复合语句，返回语句
+    // defStmt=1,
+    // expStmt=2,
+    // compoundStmt=3,
+    // returnStmt=4,
+    // printStmt=5,
     switch (node->getType())
     {
     case stmtType::compoundStmt:
     {
+
         if (node->getParent()->getNodeType() == ASTNodeType::loop)
             return symbolTable;
         // if (node->getParent()->getNodeType() == ASTNodeType::defFunc)
