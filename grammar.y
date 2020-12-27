@@ -195,7 +195,9 @@ extDef:
         }
         | specifier SEMICOLON {}
         | specifier MAIN LP RP compd {
-            $$ = $5;
+            MainASTNode* var = new MainASTNode("main",$5);
+            Symbol* main = tempTable->insertSymbol("MAIN", Type::integer);
+            $$ = var;
         } 
         | error SEMICOLON {
             yyerrok;
