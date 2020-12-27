@@ -6,9 +6,9 @@
 enum class ASTNodeType
 {
     root=1,
-    defFunc=2,//声明函数，没实现
-    callFunc=3,//调用函数，没实现
-    stmt=4,
+    // defFunc=2,//声明函数，没实现
+    // callFunc=3,//调用函数，没实现
+    stmt=4, //语句
     exp=5,//表达式
     op=6,//操作符，包括
     defVar=7,//声明变量

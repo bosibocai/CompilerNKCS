@@ -570,16 +570,31 @@ int main(int argc, char* argv[]){
     }
     root->printTree();
     std::cout << "root->printTree();" << std::endl;
-
+/* <<<<<<< HEAD
+    
+======= */
+    
     //-----------------------------------------------------
-    //从rootTable开始遍历语法树，rootTable定义在tools中
+    //从rootTable开始遍历符号表，rootTable定义在tools中
     //-----------------------------------------------------
+/* <<<<<<< HEAD
+    SymbolTable* t = rootTable;
+    while(t->getChild()!=NULL){
+        t->getAllSymbol();
+        t = t-> getChild();
+        printf("1.\n");
+    }
+======= */
     Symbol* s = rootTable->findSymbolfromRoot("a");
     printf("%ld\n", s);
     SymbolTable* st = rootTable->findSymbolfromRootReturnTable("a");
     printf("%ld\n", st);
+    
+    im = new InterMediate( (RootNode *)root , rootTable );
+/* >>>>>>> 7ea1a4613195f3495aec37de734eaa7e34ea93fb */
 
-    im = new InterMediate((RootNode *)root);
+    /* im = new InterMediate((RootNode *)root); */
+/* >>>>>>> 6f2c25dff8bdee9a4a40aad1ac7ed8a286b078c6 */
     std::cout << "new InterMediate((RootNode *)root);" << std::endl;
     im->Generate(im->getRoot(), im->getTable());
     std::cout << " !!!!!!!!!!!!!!!! im->Generate(im->getRoot(), im->getTable());" << std::endl;
@@ -596,8 +611,8 @@ int main(int argc, char* argv[]){
     std::string outFileName = replaceExtName(filename);
     std::cout << "replaceExtName(filename);" << std::endl;
     std::ofstream outasm(outFileName);
-    std::cout << "new InterMediate((RootNode *)root);" << std::endl;
+    std::cout << "std::ofstream outasm(outFileName);" << std::endl;
     outasm << asmgenera->getAsmCode();
-    std::cout << "new InterMediate((RootNode *)root);" << std::endl;
+    std::cout << " outasm << asmgenera->getAsmCode();" << std::endl;
     return 0;
 }

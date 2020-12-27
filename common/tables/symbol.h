@@ -72,18 +72,26 @@ public:
     Symbol* insertArraySymbol(ASTNode* node);
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
-    Symbol* find_symbol_return_symbol(std::string name);
+    Symbol* find_symbol_return_symble(std::string name);
     Symbol* find_symbol_in_table_return_symbol(std::string name);
     Symbol* findSymbolfromRoot(std::string name);
     SymbolTable* findSymbolfromRootReturnTable(std::string name);
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     void setBrother(SymbolTable* b);
+    inline void getAllSymbol(){ 
+        std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.begin();
+	while(it != symbolHash.end()) {
+		std::cout<<it->first<<" "<<it->second->getName()<< std::endl;
+		it++;
+	}
+    }
     SymbolTable* getFather();
     SymbolTable* getChild();
     SymbolTable* getBrother();
     SymbolTable* getThisTable();
     SymbolTable *createChildTable(bool isFun);
+
 };
 
 // --------------------------------------------
@@ -98,7 +106,25 @@ public:
     int tatalOffset;
     std::vector<Symbol*> *symbols;
     RootTable();
-};
+    inline Symbol* fine_symbol_in_root( std::string name){
+    SymbolTable* t = this;
+   
+    while(t->getChild()!=NULL){
+        t->getAllSymbol();
+        if (t->find_symbol_in_table_return_symbol(name)!= NULL){
+            return t->find_symbol_in_table_return_symbol(name);
+        }else{
+            t = t-> getChild();
+        }
+    }
+     if (t->find_symbol_in_table_return_symbol(name)!= NULL){
+            return t->find_symbol_in_table_return_symbol(name);
+    }else{
+        std::cout << "fine_symbol_in_root is NULL" << std::endl;
+        return NULL;
+    }
 
+    }
+};
 
 #endif //!SYMBOL_TABLE
