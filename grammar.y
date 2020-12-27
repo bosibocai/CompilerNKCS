@@ -574,11 +574,10 @@ int main(int argc, char* argv[]){
     //-----------------------------------------------------
     //从rootTable开始遍历语法树，rootTable定义在tools中
     //-----------------------------------------------------
-    SymbolTable* t = rootTable;
-    while(t->getChild()!=NULL){
-        t = t-> getChild();
-        printf("1.\n");
-    }
+    Symbol* s = rootTable->findSymbolfromRoot("a");
+    printf("%ld\n", s);
+    SymbolTable* st = rootTable->findSymbolfromRootReturnTable("a");
+    printf("%ld\n", st);
 
     im = new InterMediate((RootNode *)root);
     std::cout << "new InterMediate((RootNode *)root);" << std::endl;
