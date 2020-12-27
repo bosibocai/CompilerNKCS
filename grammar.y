@@ -160,7 +160,6 @@ prog:
         extDefList{
             root = new RootNode();
             root -> addChildNode($1);
-            // tempTable = new SymbolTable(false, NULL);
         }
 ;
 
@@ -251,7 +250,9 @@ varDec:
 
 compd:
        LBRACE {
-            tempTable = new SymbolTable(false, tempTable);
+            // tempTable: 指向当前符号表
+            // flagTable: 找a具体在哪个table 
+            tempTable = tempTable.createChildTable(false);
             flagTable = tempTable;
         } 
         stmts RBRACE{
@@ -519,7 +520,7 @@ expr:
 
 int yyerror(char* s){
     printf("Syntax error: %s\n", s);
-    return 1;
+    exit(1);
 }
 
 std::string replaceExtName(char* fileName) {
@@ -569,6 +570,16 @@ int main(int argc, char* argv[]){
     }
     root->printTree();
     std::cout << "root->printTree();" << std::endl;
+
+    //-----------------------------------------------------
+    //从rootTable开始遍历语法树，rootTable定义在tools中
+    //-----------------------------------------------------
+    SymbolTable* t = rootTable;
+    while(t->getChild()!=NULL){
+        t = t-> getChild();
+        printf("1.\n");
+    }
+
     im = new InterMediate((RootNode *)root);
     std::cout << "new InterMediate((RootNode *)root);" << std::endl;
     im->Generate(im->getRoot(), im->getTable());

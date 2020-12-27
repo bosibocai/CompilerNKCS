@@ -9,6 +9,7 @@
 #include "./trees/DefVarASTNode.h"
 #include "./trees/LoopASTNode.h"
 #include "./trees/ConditionalASTNode.h"
-extern SymbolTable* tempTable;
+extern SymbolTable* rootTable;
 extern SymbolTable* flagTable;
+extern SymbolTable* tempTable;
 #endif 
