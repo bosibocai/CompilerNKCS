@@ -63,6 +63,14 @@ SymbolTable::SymbolTable(bool isFun, SymbolTable* father){
     this -> root = temp;
     this -> isFun = isFun;
     this -> totalOffset = 0;
+    // offsetFromRoot记录每个符号表相对于rootTable的offset
+    if(father!=NULL)
+        this -> offsetFromRoot = temp -> getTotalOffsetFromRoot();
+    else
+        this -> offsetFromRoot = 0;
+    // totalOffsetFromRoot记录每个符号表相对于rootTable的下一个可用offset
+    // 只有rootTable会不断更新，别的符号表都是0
+    this -> totalOffsetFromRoot = 0;
 }
 
 // 返回符号表，词法分析要输出的列表里面用的是符号表的地址
@@ -190,6 +198,7 @@ Symbol* SymbolTable::insertSymbol(std::string name, Type type){
     temp -> setOffset(this->totalOffset);
     std::cout<<"set offset: "<<this->totalOffset<<std::endl;
     this -> totalOffset += width;
+    std::cout<<"Next offset can be used: "<<this->getTotalOffset()<<std::endl;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
     std::cout<< "symbolHash[name]" << name << this->symbolHash[name]->getName() <<std::endl;
@@ -227,6 +236,7 @@ Symbol* SymbolTable::insertArraySymbol(std::string name, int length){
     temp -> setOffset(this->totalOffset);
     std::cout<<"set offset: "<<this->totalOffset<<std::endl;
     this -> totalOffset += width;
+    std::cout<<"Next offset can be used: "<<this->getTotalOffset()<<std::endl;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
     return temp;
@@ -244,6 +254,13 @@ void SymbolTable::setBrother(SymbolTable* b){
     this->brother = b;
 }
 
+void SymbolTable::setOffsetFromRoot(int offset){
+    this ->offsetFromRoot = offset;
+}
+
+void SymbolTable::setTotalOffsetFromRoot(int new_offset){
+    this -> root -> totalOffsetFromRoot += new_offset;
+}
 
 SymbolTable* SymbolTable::getFather(){
     return this->father;
@@ -259,6 +276,16 @@ SymbolTable* SymbolTable::getBrother(){
 
 SymbolTable* SymbolTable::getThisTable(){
     return this;
+}
+
+// 返回相对于根符号表的下一个可用偏移量
+int SymbolTable::getTotalOffsetFromRoot(){
+    return this->root->totalOffsetFromRoot;
+}
+
+// 返回每个符号表相对于根符号表的偏移量
+int SymbolTable::getOffsetFromRoot(){
+    return this -> offsetFromRoot;
 }
 
 // <<<<<<< HEAD

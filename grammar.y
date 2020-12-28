@@ -269,6 +269,7 @@ compd:
            ASTNode* node = new StmtASTNode(stmtType::compoundStmt);
            node -> addChildNode($3);
            $$ = node;
+           rootTable->setTotalOffsetFromRoot(tempTable->getTotalOffset());
            tempTable = tempTable->getFather();
            flagTable = tempTable;
         }
@@ -618,6 +619,8 @@ int main(int argc, char* argv[]){
     printf("%ld\n", s);
     SymbolTable* st = rootTable->findSymbolfromRootReturnTable("MAIN");
     printf("%ld\n", st);
+    std::cout<<"rootTable offset: "<<rootTable->getTotalOffset()<<std::endl;
+    std::cout<<"next offset from rootTable can be used: "<<rootTable->getTotalOffsetFromRoot()<<std::endl;
     
     im = new InterMediate( (RootNode *)root , rootTable );
 /* >>>>>>> 7ea1a4613195f3495aec37de734eaa7e34ea93fb */
