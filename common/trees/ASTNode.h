@@ -1,6 +1,7 @@
 #ifndef ASTNODE
 #define ASTNODE
 #include<iostream>
+#include "../tables/symbol.h"
 
 //节点类型
 enum class ASTNodeType
@@ -39,11 +40,13 @@ class ASTNode
         ASTNode* parent=NULL;
         ASTNode* child=NULL;
         ASTNode* brother=NULL;
+        SymbolTable* theTable=NULL;
     
     protected:
         std::string content;
         //打印当前节点
         static void printSelf(ASTNode *selfNode,int depth);
+
     
     public:
         ASTNode();
@@ -55,6 +58,8 @@ class ASTNode
         inline ASTNode* getBrother() { return this->brother; }
         inline std::string getContent() { return this->content; }
         inline void setParent(ASTNode* parentNode){this->parent=parentNode;}
+        inline SymbolTable* getTheTable(){return this->theTable;}
+        inline void setTheTable(SymbolTable* theTable){this->theTable=theTable;}
         void addChildNode(ASTNode* childNode);
         void addBrother(ASTNode* brotherNode);
         ASTNode* getLastBrother();

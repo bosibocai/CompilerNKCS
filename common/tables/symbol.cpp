@@ -1,6 +1,6 @@
 #include <iostream>
 #include "symbol.h"
-#include "../trees/DefVarASTNode.h"
+// #include "../trees/DefVarASTNode.h"
 using namespace std;
 
 // --------------------------------------------
@@ -196,33 +196,29 @@ Symbol* SymbolTable::insertSymbol(std::string name, Type type){
     return temp;
 }
 
-Symbol* SymbolTable::insertArraySymbol(ASTNode* node){
-    DefVarASTNode* arrayNode = (DefVarASTNode*) node;
-    std::string name = arrayNode -> getContent();
-    if(this->findSymbol(name) != NULL)
-        return NULL;
-    Symbol* temp = new Symbol(name, Type::Array);
-    Type itemType = arrayNode -> getSymbolType();
-    //int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
-    int width = arrayNode -> getArrayLen()*4;
-    // temp -> setId(this->root->symbolCount++);
-    temp -> setWidth(width);
-    std::cout<<"set width: "<<width<< std::endl;
-    temp -> setOffset(this->totalOffset);
-    std::cout<<"set offset: "<<this->totalOffset<<std::endl;
-    this -> totalOffset += width;
-    // this->root->symbols->push_back(temp);
-    this->symbolHash[name] = temp;
-    return temp;
-}
+// Symbol* SymbolTable::insertArraySymbol(std::string name){
+//     if(this->findSymbol(name) != NULL)
+//         return NULL;
+//     Symbol* temp = new Symbol(name, Type::Array);
+//     // Type itemType = arrayNode -> getSymbolType();
+//     //int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
+//     int width = arrayNode -> getArrayLen()*4;
+//     // temp -> setId(this->root->symbolCount++);
+//     temp -> setWidth(width);
+//     std::cout<<"set width: "<<width<< std::endl;
+//     temp -> setOffset(this->totalOffset);
+//     std::cout<<"set offset: "<<this->totalOffset<<std::endl;
+//     this -> totalOffset += width;
+//     // this->root->symbols->push_back(temp);
+//     this->symbolHash[name] = temp;
+//     return temp;
+// }
 
-Symbol* SymbolTable::insertArraySymbol(ASTNode* node, int length){
-    DefVarASTNode* arrayNode = (DefVarASTNode*) node;
-    std::string name = arrayNode -> getContent();
+Symbol* SymbolTable::insertArraySymbol(std::string name, int length){
     if(this->findSymbol(name) != NULL)
         return NULL;
     Symbol* temp = new Symbol(name, Type::Array);
-    Type itemType = arrayNode -> getSymbolType();
+    // Type itemType = arrayNode -> getSymbolType();
     //int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
     int width = length*4;
     // temp -> setId(this->root->symbolCount++);
