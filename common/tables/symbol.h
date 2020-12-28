@@ -5,7 +5,7 @@
 #include <unordered_map> //每个符号表用hash实现
 #include <vector> //存所有的symbols
 
-#include "../trees/ASTNode.h"
+//#include "../trees/ASTNode.h"
 
 enum class Type{
     unset = -1,
@@ -72,8 +72,8 @@ public:
     SymbolTable(bool isFun, SymbolTable* father);
     Symbol* insertSymbol(std::string name, Type type);
     // 如果符号表项是一个数组：传参直接是结点的指针
-    Symbol* insertArraySymbol(ASTNode* node);
-    Symbol* insertArraySymbol(ASTNode* node, int length);
+    // Symbol* insertArraySymbol(std::string name);
+    Symbol* insertArraySymbol(std::string name, int length);
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
     Symbol* find_symbol_return_symble(std::string name);

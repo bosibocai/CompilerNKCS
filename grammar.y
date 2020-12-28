@@ -233,7 +233,9 @@ varDec:
         ID {
             Symbol* result = tempTable->insertSymbol($1,Type::integer);
             if(result!=NULL){
-                $$ = new DefVarASTNode($1);
+                DefVarASTNode* var = new DefVarASTNode($1);
+                var->setTheTable(tempTable);
+                $$ = var;
             } 
             else{
                 yyerror((char*)"multi defined");
@@ -241,10 +243,11 @@ varDec:
         }
         | ID LBRAKET INT RBRAKET {
             ASTNode* node = new DefVarASTNode($1);
-            Symbol* result = tempTable->insertArraySymbol(node, atoi($3));
+            Symbol* result = tempTable->insertArraySymbol($1, atoi($3));
             if(result!=NULL){
                 DefVarASTNode* var = (DefVarASTNode*) node;
                 var -> setSymbolType((char*)"array",$3);
+                var -> setTheTable(tempTable);
                 $$ = var;
             } 
             else {
@@ -525,7 +528,10 @@ expr:
         | ID {
             flagTable = tempTable->findSymbol($1);
             if(flagTable!=NULL){
-                $$ = new VarASTNode($1);
+                VarASTNode* var = new VarASTNode($1);
+                var -> setTheTable(flagTable);
+                $$ = var;
+                flagTable = tempTable;
             }
             else{
                 yyerror((char*)"use variable undifined");
