@@ -58,8 +58,9 @@ SymbolTable::SymbolTable(bool isFun, SymbolTable* father){
     this -> child = NULL;
     this -> brother = NULL;
     SymbolTable* temp = this;
-    while(temp->isFun)
-        temp = temp -> father;
+    while(temp->father != NULL){
+        temp = temp ->father;
+    }
     this -> root = temp;
     this -> isFun = isFun;
     this -> totalOffset = 0;
