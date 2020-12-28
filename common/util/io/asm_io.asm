@@ -132,6 +132,22 @@ read_int_i:
 	leave
 	ret
 
+	printf:
+	enter	0,0
+	pusha
+	pushf
+
+	push	eax
+	push	dword int_format
+	call	_printf
+	pop	ecx
+	pop	ecx
+
+	popf
+	popa
+	leave
+	ret
+
 print_int_i:
 	enter	0,0
 	pusha

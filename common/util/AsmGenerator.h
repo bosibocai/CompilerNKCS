@@ -81,7 +81,8 @@ private:
     asmRegister findRegister(std::string var);
     void generateMain(Quad& q);
     void generateReturn(Quad& q);
-    void generateEndFunction(Quad& q);
+    void generatePrint(Quad& q);
+    //void generateEndFunction(Quad& q);
     void generateCallFunction(Quad& q);
     void generateCallBuildInFunction(Quad& q, Quad& arg);
     void generateSetArg(Quad& q);
