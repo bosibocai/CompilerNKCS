@@ -87,7 +87,6 @@ Quad::Quad(OpCode op, int arg1, Symbol *result)
     this->arg1.target = arg1;
     this->arg2.var = NULL;
     this->result.var = result;
-    
     this->flag = 6;
 }
 
@@ -200,8 +199,8 @@ std::string Quad::printOp()
         return " GET_ADDRESS  ";
     case OpCode::ASSIGN_POINTER:
         return "ASSIGN_POINTER";
-    // case OpCode::PARAM:
-    //     return "    PARAM     ";
+    case OpCode::PRINT:
+        return "    PRINT     ";
     case OpCode::MAIN:
         return "     MAIN     ";
     case OpCode::RETURN:

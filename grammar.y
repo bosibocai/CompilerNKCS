@@ -629,7 +629,7 @@ int main(int argc, char* argv[]){
     std::cout << " !!!!!!!!!!!!!!!! im->Generate(im->getRoot(), im->getTable());" << std::endl;
     im->printQuads();
     std::cout << "im->printQuads();" << std::endl;
-    /* AsmGenerator * asmgenera ;
+    AsmGenerator * asmgenera ;
     std::cout << " AsmGenerator * asmgenera ;" << std::endl;
     asmgenera =  new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());
     std::cout << "new AsmGenerator(im->getQuads(), im->getTempVars(), im->getTable());" << std::endl;
@@ -642,6 +642,6 @@ int main(int argc, char* argv[]){
     std::ofstream outasm(outFileName);
     std::cout << "std::ofstream outasm(outFileName);" << std::endl;
     outasm << asmgenera->getAsmCode();
-    std::cout << " outasm << asmgenera->getAsmCode();" << std::endl; */
+    std::cout << " outasm << asmgenera->getAsmCode();" << std::endl;
     return 0;
 }

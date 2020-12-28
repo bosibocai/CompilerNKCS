@@ -4,5 +4,6 @@ int main()
 	int b=2;
 	int x,y=0;
 	a=b+1;
+	printf(a);
 	return a;
 }
