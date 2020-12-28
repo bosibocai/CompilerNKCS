@@ -21,6 +21,6 @@ int main()
     *p = a;
     a = *p;
     printf(a);
-    return a;
+    // return a;
     // cout << a;
 }

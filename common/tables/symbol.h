@@ -5,7 +5,7 @@
 #include <unordered_map> //每个符号表用hash实现
 #include <vector> //存所有的symbols
 
-#include "../trees/ASTNode.h"
+//#include "../trees/ASTNode.h"
 
 enum class Type{
     unset = -1,
@@ -13,8 +13,10 @@ enum class Type{
     boolean = 1,
     string = 2,
     pointer = 3,
-    Array = 4,
-    main = 5//main函数
+    Array = 4, 
+    MAIN = 5, 
+    RETURN = 6
+// >>>>>>> 9e09d97804f67bd7667174bc856b2816771ef11b
 };
 
 // std::unordered_map<Type, int> type_width{
@@ -64,13 +66,15 @@ protected:
     SymbolTable* root;
     // 未实现函数调用，此处isFun应为False
     bool isFun;
+    int totalOffset;
     
 public:
     inline SymbolTable() {};
     SymbolTable(bool isFun, SymbolTable* father);
     Symbol* insertSymbol(std::string name, Type type);
     // 如果符号表项是一个数组：传参直接是结点的指针
-    Symbol* insertArraySymbol(ASTNode* node);
+    // Symbol* insertArraySymbol(std::string name);
+    Symbol* insertArraySymbol(std::string name, int length);
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
     Symbol* find_symbol_return_symble(std::string name);
@@ -92,7 +96,7 @@ public:
     SymbolTable* getBrother();
     SymbolTable* getThisTable();
     SymbolTable *createChildTable(bool isFun);
-
+    int getTotalOffset();
 };
 
 // --------------------------------------------

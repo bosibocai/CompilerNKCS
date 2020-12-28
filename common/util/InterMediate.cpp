@@ -153,6 +153,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         // this->funcTable.addFunction(func);
         Quad *temp;
         Symbol *tempSym = symbolTable->findSymbolfromRoot(std::string("MAIN"));
+        cout << "main !!!!!!!symbol "<< tempSym->getName() << endl;
         temp = new Quad(OpCode::MAIN, tempSym, (Symbol *)NULL);
         this->quads.push_back(*temp);
         while (p != NULL)
@@ -268,7 +269,8 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         // else 
         if (tempNode->getSymbolType() == Type::Array)
         {
-            symbolTable->insertArraySymbol(tempNode);
+            std::cout<<"define array in intermedia" << std::endl;
+            // symbolTable->insertArraySymbol(tempNode);
         }
         else
         {
@@ -1131,9 +1133,7 @@ Symbol *InterMediate::GenerateOp(OpASTNode *node, SymbolTable *symbolTable)
 Quad *InterMediate::CaculateOp(OpCode op, ASTNode *arg1Node, ASTNode *arg2Node, Symbol *result, SymbolTable *symbolTable)
 {
     Quad *temp;
-    // Symbol *result = new symbol(std::to_string(tempVar.size()), SymbolType::integer);
-    // tempVar.push_back(result);
-    // result = tempVar.back();
+    
 
     if (arg1Node->getNodeType() == ASTNodeType::callVar && arg2Node->getNodeType() == ASTNodeType::callVar)
     {
