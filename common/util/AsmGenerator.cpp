@@ -850,8 +850,30 @@ void AsmGenerator::generateGetAddress(Quad& q) {
 }
 
 void AsmGenerator::generateReturn(Quad& q) {
-    this->asmcode.pop(asmRegister::ecx);
-    this->asmcode.pop(asmRegister::ebx);
+    if (q.getArg(1).target == 0) {
+        this->asmcode.pop(asmRegister::ecx);
+        this->asmcode.pop(asmRegister::ebx);
+        this->asmcode.addCode(ASM_LEAVE);
+        this->asmcode.addCode(ASM_RET);
+        return;
+    }
+    int flag = q.getFlag();
+    if (flag == 7) {
+        Symbol* s = q.getArg(1).var;
+        std::string name = s->getName();
+        if (name[0] == 'T') {
+            asmRegister reg = this->findRegister(name);
+            this->releaseRegister(reg);
+            this->asmcode.mov(asmRegister::eax, reg);
+        } else {
+            int offset = s->getOffset();
+            std::string varEbpOffset = this->asmcode.generateVar(offset);
+            this->asmcode.mov(asmRegister::eax, varEbpOffset);
+        }
+    } else {
+        int value = q.getArg(1).target;
+        this->asmcode.mov(asmRegister::eax, std::to_string(value));
+    }
     this->asmcode.addCode(ASM_LEAVE);
     this->asmcode.addCode(ASM_RET);
 }
