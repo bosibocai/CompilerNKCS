@@ -67,6 +67,9 @@ protected:
     // 未实现函数调用，此处isFun应为False
     bool isFun;
     int totalOffset;
+    int offsetFromRoot;
+    // totalOffsetFromRoot记录下一个符号表相对于rootTable的offset，初始化为0，只有rootTable维护这个值。
+    int totalOffsetFromRoot;
     
 public:
     inline SymbolTable() {};
@@ -84,6 +87,8 @@ public:
     void setFather(SymbolTable* f);
     void setChild(SymbolTable* c);
     void setBrother(SymbolTable* b);
+    void setOffsetFromRoot(int offset);
+    void setTotalOffsetFromRoot(int new_offset);
     inline void getAllSymbol(){ 
         std::unordered_map<std::string, Symbol*>::iterator it = this->symbolHash.begin();
 	while(it != symbolHash.end()) {
@@ -96,7 +101,12 @@ public:
     SymbolTable* getBrother();
     SymbolTable* getThisTable();
     SymbolTable *createChildTable(bool isFun);
+    // 返回每个符号表内部的总偏移量
     int getTotalOffset();
+    // 返回相对于根符号表的下一个可用偏移量
+    int getTotalOffsetFromRoot();
+    // 返回每个符号表相对于根符号表的偏移量
+    int getOffsetFromRoot();
 };
 
 // --------------------------------------------
