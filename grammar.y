@@ -195,9 +195,14 @@ extDef:
         }
         | specifier SEMICOLON {}
         | specifier MAIN LP RP compd {
-            MainASTNode* var = new MainASTNode("main",$5);
-            Symbol* main = tempTable->insertSymbol("MAIN", Type::integer);
-            $$ = var;
+            Symbol* main = tempTable->insertSymbol("MAIN", Type::MAIN);
+            if(main!=NULL){
+                MainASTNode* var = new MainASTNode("main",$5);
+                $$ = var;
+            }
+            else{
+                yyerror((char*)"multi used MAIN");
+            }
         } 
         | error SEMICOLON {
             yyerrok;
@@ -236,7 +241,7 @@ varDec:
         }
         | ID LBRAKET INT RBRAKET {
             ASTNode* node = new DefVarASTNode($1);
-            Symbol* result = tempTable->insertArraySymbol(node);
+            Symbol* result = tempTable->insertArraySymbol(node, atoi($3));
             if(result!=NULL){
                 DefVarASTNode* var = (DefVarASTNode*) node;
                 var -> setSymbolType((char*)"array",$3);
@@ -311,12 +316,28 @@ stmt:
             $$=temp;
         }
         | RETURN SEMICOLON {
-            $$ = new StmtASTNode(stmtType::returnStmt);
+            // $$ = new StmtASTNode(stmtType::returnStmt);
+            Symbol* sr = tempTable -> insertSymbol(std::string("RETURN"), Type::RETURN);
+            if(sr!=NULL){
+                $$ = new StmtASTNode(stmtType::returnStmt);
+            } 
+            else{
+                yyerror((char*)"multi used RETURN");
+            }
         }
         | RETURN expr SEMICOLON {
-            ASTNode* temp = new StmtASTNode(stmtType::returnStmt);
-            temp->addChildNode($2);
-            $$ = temp;
+            // ASTNode* temp = new StmtASTNode(stmtType::returnStmt);
+            // temp->addChildNode($2);
+            // $$ = temp;
+            Symbol* sr = tempTable -> insertSymbol("RETURN", Type::RETURN);
+            if(sr!=NULL){
+                ASTNode* temp = new StmtASTNode(stmtType::returnStmt);
+                temp->addChildNode($2);
+                $$ = temp;
+            } 
+            else{
+                yyerror((char*)"multi used RETURN");
+            }
         }
         | IF LP expr RP stmt {
             $$ = new ConditionalASTNode((char*)"", conditionalType::IF, $3, $5);
@@ -587,9 +608,9 @@ int main(int argc, char* argv[]){
         printf("1.\n");
     }
 ======= */
-    Symbol* s = rootTable->findSymbolfromRoot("a");
+    Symbol* s = rootTable->findSymbolfromRoot("MAIN");
     printf("%ld\n", s);
-    SymbolTable* st = rootTable->findSymbolfromRootReturnTable("a");
+    SymbolTable* st = rootTable->findSymbolfromRootReturnTable("MAIN");
     printf("%ld\n", st);
     
     im = new InterMediate( (RootNode *)root , rootTable );

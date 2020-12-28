@@ -62,6 +62,7 @@ SymbolTable::SymbolTable(bool isFun, SymbolTable* father){
         temp = temp -> father;
     this -> root = temp;
     this -> isFun = isFun;
+    this -> totalOffset = 0;
 }
 
 // 返回符号表，词法分析要输出的列表里面用的是符号表的地址
@@ -173,8 +174,7 @@ Symbol* SymbolTable::find_symbol_return_symble(std::string name){
 
 
 Symbol* SymbolTable::insertSymbol(std::string name, Type type){
-    if(this->findSymbolinThisTable(name)!=NULL)
-    {
+    if(this->findSymbolinThisTable(name)!=NULL){
         std::cout << "findSymbolinThisTable insertSymbol \n" ;
         this->findSymbolinThisTable(name)->getAllSymbol();
         return NULL;
@@ -186,9 +186,10 @@ Symbol* SymbolTable::insertSymbol(std::string name, Type type){
     int width = 4;
     // temp -> setId(this->root->symbolCount++);
     temp -> setWidth(width);
-    std::cout<< "setWidth(width);" << std::endl;
-    // temp -> setOffset(this->root->tatalOffset);
-    // this->root->tatalOffset += width;
+    std::cout<<"set width: "<<width<< std::endl;
+    temp -> setOffset(this->totalOffset);
+    std::cout<<"set offset: "<<this->totalOffset<<std::endl;
+    this -> totalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
     std::cout<< "symbolHash[name]" << name << this->symbolHash[name]->getName() <<std::endl;
@@ -206,8 +207,30 @@ Symbol* SymbolTable::insertArraySymbol(ASTNode* node){
     int width = arrayNode -> getArrayLen()*4;
     // temp -> setId(this->root->symbolCount++);
     temp -> setWidth(width);
-    // temp ->setOffset(this->root->tatalOffset);
-    // this->root->tatalOffset += width;
+    std::cout<<"set width: "<<width<< std::endl;
+    temp -> setOffset(this->totalOffset);
+    std::cout<<"set offset: "<<this->totalOffset<<std::endl;
+    this -> totalOffset += width;
+    // this->root->symbols->push_back(temp);
+    this->symbolHash[name] = temp;
+    return temp;
+}
+
+Symbol* SymbolTable::insertArraySymbol(ASTNode* node, int length){
+    DefVarASTNode* arrayNode = (DefVarASTNode*) node;
+    std::string name = arrayNode -> getContent();
+    if(this->findSymbol(name) != NULL)
+        return NULL;
+    Symbol* temp = new Symbol(name, Type::Array);
+    Type itemType = arrayNode -> getSymbolType();
+    //int width = arrayNode -> getArrayLen()*type_width.find(itemType)->second;
+    int width = length*4;
+    // temp -> setId(this->root->symbolCount++);
+    temp -> setWidth(width);
+    std::cout<<"set width: "<<width<< std::endl;
+    temp -> setOffset(this->totalOffset);
+    std::cout<<"set offset: "<<this->totalOffset<<std::endl;
+    this -> totalOffset += width;
     // this->root->symbols->push_back(temp);
     this->symbolHash[name] = temp;
     return temp;
@@ -296,6 +319,11 @@ SymbolTable *SymbolTable::createChildTable(bool isFun){
     }
     return childTable;
 }
+
+int SymbolTable::getTotalOffset(){
+    return this->totalOffset;
+}
+
 
 // --------------------------------------------
 // Root类：根符号表，树中根节点

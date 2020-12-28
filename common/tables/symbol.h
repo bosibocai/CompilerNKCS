@@ -13,7 +13,9 @@ enum class Type{
     boolean = 1,
     string = 2,
     pointer = 3,
-    Array = 4
+    Array = 4, 
+    MAIN = 5, 
+    RETURN = 6
 };
 
 // std::unordered_map<Type, int> type_width{
@@ -63,6 +65,7 @@ protected:
     SymbolTable* root;
     // 未实现函数调用，此处isFun应为False
     bool isFun;
+    int totalOffset;
     
 public:
     inline SymbolTable() {};
@@ -70,6 +73,7 @@ public:
     Symbol* insertSymbol(std::string name, Type type);
     // 如果符号表项是一个数组：传参直接是结点的指针
     Symbol* insertArraySymbol(ASTNode* node);
+    Symbol* insertArraySymbol(ASTNode* node, int length);
     SymbolTable* findSymbol(std::string name);
     SymbolTable* findSymbolinThisTable(std::string name);
     Symbol* find_symbol_return_symble(std::string name);
@@ -91,7 +95,7 @@ public:
     SymbolTable* getBrother();
     SymbolTable* getThisTable();
     SymbolTable *createChildTable(bool isFun);
-
+    int getTotalOffset();
 };
 
 // --------------------------------------------
