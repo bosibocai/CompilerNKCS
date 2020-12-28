@@ -1,4 +1,4 @@
-	extern  pow_i_i, read_int_i, print_int_i, print_string
+	extern  pow_i_i, read_int_i, print_int_i, print_string, printf
 	extern	read_char, print_char, print_nl
 	extern  sub_dump_regs, sub_dump_mem, sub_dump_math, sub_dump_stack
 

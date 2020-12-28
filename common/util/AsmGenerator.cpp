@@ -175,7 +175,7 @@ AsmGenerator::AsmGenerator(std::vector<Quad>& quads, std::vector<Symbol*>& tempV
     this->tempVar = tempVar;
     this->rootTable = rootTable;
     // this->funcTable = funcTable;
-    this->preSetLabel();
+    //this->preSetLabel();
     eax = 0;
     ebx = 0;
     ecx = 0;
@@ -542,8 +542,8 @@ void AsmGenerator::generateArithmetic(Quad& q) {
 
 void AsmGenerator::generateMain(Quad& q) {
     std::string funcName = q.getArg(1).var->getName();
-    this->asmcode.label(funcName);
-    int totalOffset = currentTable->find_symbol_in_table_return_symbol(funcName)->getOffset();
+    this->asmcode.label("main");
+    int totalOffset = rootTable->find_symbol_in_table_return_symbol(funcName)->getOffset();
     this->asmcode.addCode(ASM_ENTER + std::string(" ") + std::to_string(totalOffset) + ASM_COMMA + "0");
     this->asmcode.push(asmRegister::ebx);
     this->asmcode.push(asmRegister::ecx);
@@ -574,6 +574,13 @@ void AsmGenerator::generateReturn(Quad& q) {
     }
     this->asmcode.addCode(ASM_LEAVE);
     this->asmcode.addCode(ASM_RET);
+}
+
+void AsmGenerator::generatePrint(Quad& q) {
+    int argValue = q.getArg(1).target;
+    std::string value = std::to_string(argValue);
+    this->asmcode.mov(asmRegister::eax, value);
+    this->asmcode.generateUnaryInstructor(ASM_CALL, "print_int_i");
 }
 
 // void AsmGenerator::generateEndFunction(Quad& q) {
@@ -1081,40 +1088,26 @@ void AsmGenerator::generate() {
     for (size_t i = 0; i < this->quads.size(); i++) {
         Quad& q = quads[i];
         OpCode opcode = q.getOpCode();
-        // if (opcode == OpCode::FUNC_DEF) {
+        if (opcode == OpCode::MAIN) {
+            this->generateMain(q);
+        }
         //     if (currentTable == rootTable) {
         //         currentTable = currentTable->getChild();
         //     } else {
         //         currentTable = currentTable->getBrother();
         //     }
         //     this->generateDefFunction(q);
-        // }
+
         // else 
         /*加一个main*/
-        if (opcode == OpCode::PLUS || opcode == OpCode::MINUS ||
+        else if (opcode == OpCode::PRINT){
+            this->generatePrint(q);
+        }
+        else if (opcode == OpCode::PLUS || opcode == OpCode::MINUS ||
                  opcode == OpCode::DIV || opcode == OpCode::TIMES ||
                  opcode == OpCode::ASSIGN || opcode == OpCode::MOD) {
             this->generateArithmetic(q);
         }
-        // else if (opcode == OpCode::PARAM) {
-        //     Quad& next = quads[i + 1];
-        //     if (next.getOpCode() == OpCode::CALL) {
-        //         if (next.getArg(1).var->getName() == "print_int_i" || 
-        //             next.getArg(1).var->getName() == "read_int_i") {
-        //                 this->generateCallBuildInFunction(next, q);
-        //                 i = i + 1;
-        //                 continue;
-        //             }
-        //     }
-        //     // Push the args to stack
-        //     this->generateSetArg(q);
-        // }
-        // else if (opcode == OpCode::CALL) {
-        //     this->generateCallFunction(q);
-        // } 
-        // else if (opcode == OpCode::END_FUNCTION) {
-        //     this->generateEndFunction(q);
-        // } 
         else if (opcode == OpCode::RETURN) {//与END_FUNCTION结合
             this->generateReturn(q);
         } else if (opcode == OpCode::LABEL) {
