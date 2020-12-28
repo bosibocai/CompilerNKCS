@@ -13,7 +13,9 @@ enum class Type{
     boolean = 1,
     string = 2,
     pointer = 3,
-    Array = 4
+    Array = 4, 
+    MAIN = 5, 
+    RETURN = 6
 };
 
 // std::unordered_map<Type, int> type_width{
@@ -63,6 +65,7 @@ protected:
     SymbolTable* root;
     // 未实现函数调用，此处isFun应为False
     bool isFun;
+    int totalOffset;
     
 public:
     inline SymbolTable() {};
@@ -91,7 +94,7 @@ public:
     SymbolTable* getBrother();
     SymbolTable* getThisTable();
     SymbolTable *createChildTable(bool isFun);
-
+    int getTotalOffset();
 };
 
 // --------------------------------------------
