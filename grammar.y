@@ -241,7 +241,7 @@ varDec:
         }
         | ID LBRAKET INT RBRAKET {
             ASTNode* node = new DefVarASTNode($1);
-            Symbol* result = tempTable->insertArraySymbol(node);
+            Symbol* result = tempTable->insertArraySymbol(node, atoi($3));
             if(result!=NULL){
                 DefVarASTNode* var = (DefVarASTNode*) node;
                 var -> setSymbolType((char*)"array",$3);
