@@ -202,10 +202,10 @@ std::string Quad::printOp()
         return "ASSIGN_POINTER";
     // case OpCode::PARAM:
     //     return "    PARAM     ";
-    // case OpCode::CALL:
-    //     return "     CALL     ";
-    // case OpCode::RETURN:
-    //     return "    RETURN    ";
+    case OpCode::MAIN:
+        return "     MAIN     ";
+    case OpCode::RETURN:
+        return "    RETURN    ";
     // case OpCode::FUNC_DEF:
     //     return "   FUNC_DEF   ";
     // case OpCode::END_FUNCTION:

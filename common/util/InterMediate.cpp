@@ -145,6 +145,33 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
     //     this->quads.push_back(*temp);
     // }
 
+    case ASTNodeType::mainnode:{
+        // case ASTNodeType::defFunc:
+        // {
+        // 如果是函数
+        // FuncSymbol *func = new FuncSymbol(node);
+        // this->funcTable.addFunction(func);
+        Quad *temp;
+        Symbol *tempSym = symbolTable->findSymbolfromRoot(std::string("MAIN"));
+        cout << "main !!!!!!!symbol "<< tempSym->getName() << endl;
+        temp = new Quad(OpCode::MAIN, tempSym, (Symbol *)NULL);
+        this->quads.push_back(*temp);
+        while (p != NULL)
+        {
+            // SymbolTable *childTable = symbolTable->createChildTable(true);
+            // childTable->addFromFunctionArgs(node);
+            Generate(p, symbolTable);
+            p = p->getBrother();
+        }
+        // temp = new Quad(OpCode::END_FUNCTION, (Symbol *)NULL, (Symbol *)NULL);
+        // this->quads.push_back(*temp);
+        break;
+    // }
+        // Quad *temp = new Quad(OpCode::MAIN, NULL);
+        // this->quads.push_back(*temp);
+        // break;
+    }
+
     case ASTNodeType::literal:
     {
         if (node->getParent()->getNodeType() == ASTNodeType::op)
@@ -170,7 +197,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
     case ASTNodeType::op:
     {
         cout << "((OpASTNode *)node)->getType()" << (int)((OpASTNode *)node)->getType()  << endl;
-    //    optype   //操作符集
+    // optype   //操作符集
     // add=1, // +
     // subtract=2, // -
     // multiply=3, // *
@@ -242,7 +269,8 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
         // else 
         if (tempNode->getSymbolType() == Type::Array)
         {
-            symbolTable->insertArraySymbol(tempNode);
+            std::cout<<"define array in intermedia" << std::endl;
+            // symbolTable->insertArraySymbol(tempNode);
         }
         else
         {
@@ -1105,9 +1133,7 @@ Symbol *InterMediate::GenerateOp(OpASTNode *node, SymbolTable *symbolTable)
 Quad *InterMediate::CaculateOp(OpCode op, ASTNode *arg1Node, ASTNode *arg2Node, Symbol *result, SymbolTable *symbolTable)
 {
     Quad *temp;
-    // Symbol *result = new symbol(std::to_string(tempVar.size()), SymbolType::integer);
-    // tempVar.push_back(result);
-    // result = tempVar.back();
+    
 
     if (arg1Node->getNodeType() == ASTNodeType::callVar && arg2Node->getNodeType() == ASTNodeType::callVar)
     {

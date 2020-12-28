@@ -63,6 +63,7 @@ enum class OpCode
     LABEL,
     GET_VALUE,
     GET_ARRAY,
+    MAIN // Main函数
     // GET_STRUCT
 };
 

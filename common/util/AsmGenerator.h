@@ -79,7 +79,7 @@ private:
     void releaseRegister(asmRegister reg);
     asmRegister getRegister(std::string var);
     asmRegister findRegister(std::string var);
-    void generateDefFunction(Quad& q);
+    void generateMain(Quad& q);
     void generateReturn(Quad& q);
     void generateEndFunction(Quad& q);
     void generateCallFunction(Quad& q);

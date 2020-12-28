@@ -1,7 +1,6 @@
 #include "AsmGenerator.h"
 
 AsmCode::AsmCode() {
-
 }
 
 std::string AsmCode::transRegister(asmRegister reg) {
@@ -541,40 +540,41 @@ void AsmGenerator::generateArithmetic(Quad& q) {
     }
 }
 
-// void AsmGenerator::generateDefFunction(Quad& q) {
-//     std::string funcName = q.getArg(1).var->getName();
-//     this->asmcode.label(funcName);
-//     int totalOffset = currentTable->getTotalOffset();
-//     this->asmcode.addCode(ASM_ENTER + std::string(" ") + std::to_string(totalOffset) + ASM_COMMA + "0");
-//     this->asmcode.push(asmRegister::ebx);
-//     this->asmcode.push(asmRegister::ecx);
-// }
+void AsmGenerator::generateMain(Quad& q) {
+    std::string funcName = q.getArg(1).var->getName();
+    this->asmcode.label(funcName);
+    int totalOffset = currentTable->find_symbol_in_table_return_symbol(funcName)->getOffset();
+    this->asmcode.addCode(ASM_ENTER + std::string(" ") + std::to_string(totalOffset) + ASM_COMMA + "0");
+    this->asmcode.push(asmRegister::ebx);
+    this->asmcode.push(asmRegister::ecx);
+}
 
-// void AsmGenerator::generateReturn(Quad& q) {
-//     if (q.getArg(1).target == 0) {
-//         this->generateEndFunction(q);
-//         return;
-//     }
-//     int flag = q.getFlag();
-//     if (flag == 7) {
-//         Symbol* s = q.getArg(1).var;
-//         std::string name = s->getName();
-//         if (name[0] == 'T') {
-//             asmRegister reg = this->findRegister(name);
-//             this->releaseRegister(reg);
-//             this->asmcode.mov(asmRegister::eax, reg);
-//         } else {
-//             int offset = s->getOffset();
-//             std::string varEbpOffset = this->asmcode.generateVar(offset);
-//             this->asmcode.mov(asmRegister::eax, varEbpOffset);
-//         }
-//     } else {
-//         int value = q.getArg(1).target;
-//         this->asmcode.mov(asmRegister::eax, std::to_string(value));
-//     }
-//     this->asmcode.addCode(ASM_LEAVE);
-//     this->asmcode.addCode(ASM_RET);
-// }
+void AsmGenerator::generateReturn(Quad& q) {
+    // if (q.getArg(1).target == 0) {
+    //     this->generateEndFunction(q);
+    //     return;
+    // }
+    int flag = q.getFlag();
+    if (flag == 7) {
+        Symbol* s = q.getArg(1).var;
+        std::string name = s->getName();
+        std::cout<< " generate return" << std::endl;
+        if (name[0] == 'T') {
+            asmRegister reg = this->findRegister(name);
+            this->releaseRegister(reg);
+            this->asmcode.mov(asmRegister::eax, reg);
+        } else {
+            int offset = s->getOffset();
+            std::string varEbpOffset = this->asmcode.generateVar(offset);
+            this->asmcode.mov(asmRegister::eax, varEbpOffset);
+        }
+    } else {
+        int value = q.getArg(1).target;
+        this->asmcode.mov(asmRegister::eax, std::to_string(value));
+    }
+    this->asmcode.addCode(ASM_LEAVE);
+    this->asmcode.addCode(ASM_RET);
+}
 
 // void AsmGenerator::generateEndFunction(Quad& q) {
 //     this->asmcode.pop(asmRegister::ecx);
@@ -849,34 +849,44 @@ void AsmGenerator::generateGetAddress(Quad& q) {
     }
 }
 
-void AsmGenerator::generateReturn(Quad& q) {
-    if (q.getArg(1).target == 0) {
-        this->asmcode.pop(asmRegister::ecx);
-        this->asmcode.pop(asmRegister::ebx);
-        this->asmcode.addCode(ASM_LEAVE);
-        this->asmcode.addCode(ASM_RET);
-        return;
-    }
-    int flag = q.getFlag();
-    if (flag == 7) {
-        Symbol* s = q.getArg(1).var;
-        std::string name = s->getName();
-        if (name[0] == 'T') {
-            asmRegister reg = this->findRegister(name);
-            this->releaseRegister(reg);
-            this->asmcode.mov(asmRegister::eax, reg);
-        } else {
-            int offset = s->getOffset();
-            std::string varEbpOffset = this->asmcode.generateVar(offset);
-            this->asmcode.mov(asmRegister::eax, varEbpOffset);
-        }
-    } else {
-        int value = q.getArg(1).target;
-        this->asmcode.mov(asmRegister::eax, std::to_string(value));
-    }
-    this->asmcode.addCode(ASM_LEAVE);
-    this->asmcode.addCode(ASM_RET);
-}
+// <<<<<<< HEAD
+// // void AsmGenerator::generateReturn(Quad& q) {
+// //     this->asmcode.pop(asmRegister::ecx);
+// //     this->asmcode.pop(asmRegister::ebx);
+// //     this->asmcode.addCode(ASM_LEAVE);
+// //     this->asmcode.addCode(ASM_RET);
+// // }
+// =======
+// void AsmGenerator::generateReturn(Quad& q) {
+//     if (q.getArg(1).target == 0) {
+//         this->asmcode.pop(asmRegister::ecx);
+//         this->asmcode.pop(asmRegister::ebx);
+//         this->asmcode.addCode(ASM_LEAVE);
+//         this->asmcode.addCode(ASM_RET);
+//         return;
+//     }
+//     int flag = q.getFlag();
+//     if (flag == 7) {
+//         Symbol* s = q.getArg(1).var;
+//         std::string name = s->getName();
+//         if (name[0] == 'T') {
+//             asmRegister reg = this->findRegister(name);
+//             this->releaseRegister(reg);
+//             this->asmcode.mov(asmRegister::eax, reg);
+//         } else {
+//             int offset = s->getOffset();
+//             std::string varEbpOffset = this->asmcode.generateVar(offset);
+//             this->asmcode.mov(asmRegister::eax, varEbpOffset);
+//         }
+//     } else {
+//         int value = q.getArg(1).target;
+//         this->asmcode.mov(asmRegister::eax, std::to_string(value));
+//     }
+//     this->asmcode.addCode(ASM_LEAVE);
+//     this->asmcode.addCode(ASM_RET);
+// }
+
+// >>>>>>> 9e09d97804f67bd7667174bc856b2816771ef11b
 
 // void AsmGenerator::generateAssignMember(Quad& q) {
 //     int offsetOfMember = std::atoi(q.getArg(2).var->getName().c_str());

@@ -16,6 +16,7 @@ enum class Type{
     Array = 4, 
     MAIN = 5, 
     RETURN = 6
+// >>>>>>> 9e09d97804f67bd7667174bc856b2816771ef11b
 };
 
 // std::unordered_map<Type, int> type_width{
