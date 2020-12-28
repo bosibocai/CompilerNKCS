@@ -849,6 +849,13 @@ void AsmGenerator::generateGetAddress(Quad& q) {
     }
 }
 
+void AsmGenerator::generateReturn(Quad& q) {
+    this->asmcode.pop(asmRegister::ecx);
+    this->asmcode.pop(asmRegister::ebx);
+    this->asmcode.addCode(ASM_LEAVE);
+    this->asmcode.addCode(ASM_RET);
+}
+
 // void AsmGenerator::generateAssignMember(Quad& q) {
 //     int offsetOfMember = std::atoi(q.getArg(2).var->getName().c_str());
 //     std::string structIdName = q.getArg(3).var->getName();
@@ -1051,6 +1058,7 @@ void AsmGenerator::generate() {
         //     this->generateDefFunction(q);
         // }
         // else 
+        /*加一个main*/
         if (opcode == OpCode::PLUS || opcode == OpCode::MINUS ||
                  opcode == OpCode::DIV || opcode == OpCode::TIMES ||
                  opcode == OpCode::ASSIGN || opcode == OpCode::MOD) {
@@ -1075,10 +1083,9 @@ void AsmGenerator::generate() {
         // else if (opcode == OpCode::END_FUNCTION) {
         //     this->generateEndFunction(q);
         // } 
-        // else if (opcode == OpCode::RETURN) {
-        //     this->generateReturn(q);
-        // } 
-        else if (opcode == OpCode::LABEL) {
+        else if (opcode == OpCode::RETURN) {//与END_FUNCTION结合
+            this->generateReturn(q);
+        } else if (opcode == OpCode::LABEL) {
             int labelIndex = q.getArg(1).target;
             this->asmcode.label("label" + std::to_string(labelIndex));
         } else if (this->isJumpQuad(opcode)) {
