@@ -551,14 +551,15 @@ void AsmGenerator::generateMain(Quad& q) {
 }
 
 void AsmGenerator::generateReturn(Quad& q) {
-    if (q.getArg(1).target == 0) {
-        this->generateEndFunction(q);
-        return;
-    }
+    // if (q.getArg(1).target == 0) {
+    //     this->generateEndFunction(q);
+    //     return;
+    // }
     int flag = q.getFlag();
     if (flag == 7) {
         Symbol* s = q.getArg(1).var;
         std::string name = s->getName();
+        std::cout<< " generate return" << std::endl;
         if (name[0] == 'T') {
             asmRegister reg = this->findRegister(name);
             this->releaseRegister(reg);
@@ -849,12 +850,12 @@ void AsmGenerator::generateGetAddress(Quad& q) {
     }
 }
 
-void AsmGenerator::generateReturn(Quad& q) {
-    this->asmcode.pop(asmRegister::ecx);
-    this->asmcode.pop(asmRegister::ebx);
-    this->asmcode.addCode(ASM_LEAVE);
-    this->asmcode.addCode(ASM_RET);
-}
+// void AsmGenerator::generateReturn(Quad& q) {
+//     this->asmcode.pop(asmRegister::ecx);
+//     this->asmcode.pop(asmRegister::ebx);
+//     this->asmcode.addCode(ASM_LEAVE);
+//     this->asmcode.addCode(ASM_RET);
+// }
 
 // void AsmGenerator::generateAssignMember(Quad& q) {
 //     int offsetOfMember = std::atoi(q.getArg(2).var->getName().c_str());

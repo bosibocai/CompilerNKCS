@@ -147,7 +147,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
 
     case ASTNodeType::mainnode:{
         // case ASTNodeType::defFunc:
-    // {
+        // {
         // 如果是函数
         // FuncSymbol *func = new FuncSymbol(node);
         // this->funcTable.addFunction(func);
@@ -168,11 +168,8 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
     // }
         // Quad *temp = new Quad(OpCode::MAIN, NULL);
         // this->quads.push_back(*temp);
-
         // break;
     }
-
-
 
     case ASTNodeType::literal:
     {
@@ -199,7 +196,7 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
     case ASTNodeType::op:
     {
         cout << "((OpASTNode *)node)->getType()" << (int)((OpASTNode *)node)->getType()  << endl;
-    //    optype   //操作符集
+    // optype   //操作符集
     // add=1, // +
     // subtract=2, // -
     // multiply=3, // *
