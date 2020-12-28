@@ -543,7 +543,7 @@ void AsmGenerator::generateArithmetic(Quad& q) {
 void AsmGenerator::generateMain(Quad& q) {
     std::string funcName = q.getArg(1).var->getName();
     this->asmcode.label("main");
-    int totalOffset = rootTable->find_symbol_in_table_return_symbol(funcName)->getOffset();
+    int totalOffset = rootTable->getTotalOffsetFromRoot();
     this->asmcode.addCode(ASM_ENTER + std::string(" ") + std::to_string(totalOffset) + ASM_COMMA + "0");
     this->asmcode.push(asmRegister::ebx);
     this->asmcode.push(asmRegister::ecx);
