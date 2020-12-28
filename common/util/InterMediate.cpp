@@ -145,6 +145,35 @@ void InterMediate::Generate(ASTNode *node, SymbolTable *symbolTable)
     //     this->quads.push_back(*temp);
     // }
 
+    case ASTNodeType::mainnode:{
+        // case ASTNodeType::defFunc:
+    // {
+        // 如果是函数
+        // FuncSymbol *func = new FuncSymbol(node);
+        // this->funcTable.addFunction(func);
+        Quad *temp;
+        Symbol *tempSym = symbolTable->findSymbolfromRoot(std::string("MAIN"));
+        temp = new Quad(OpCode::MAIN, tempSym, (Symbol *)NULL);
+        this->quads.push_back(*temp);
+        while (p != NULL)
+        {
+            // SymbolTable *childTable = symbolTable->createChildTable(true);
+            // childTable->addFromFunctionArgs(node);
+            Generate(p, symbolTable);
+            p = p->getBrother();
+        }
+        // temp = new Quad(OpCode::END_FUNCTION, (Symbol *)NULL, (Symbol *)NULL);
+        // this->quads.push_back(*temp);
+        break;
+    // }
+        // Quad *temp = new Quad(OpCode::MAIN, NULL);
+        // this->quads.push_back(*temp);
+
+        // break;
+    }
+
+
+
     case ASTNodeType::literal:
     {
         if (node->getParent()->getNodeType() == ASTNodeType::op)

@@ -13,7 +13,8 @@ enum class Type{
     boolean = 1,
     string = 2,
     pointer = 3,
-    Array = 4
+    Array = 4,
+    main = 5//main函数
 };
 
 // std::unordered_map<Type, int> type_width{
