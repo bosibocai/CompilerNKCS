@@ -11,7 +11,7 @@ int main()
     // *p = a;
     // a = *p;
     // printf(a);
-     int a = 2;
+    int a = 2;
     int *p;
     p = a;
     int array[10];
