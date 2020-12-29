@@ -561,10 +561,12 @@ void AsmGenerator::generateReturn(Quad& q) {
 }
 
 void AsmGenerator::generatePrint(Quad& q) {
-    int argValue = q.getArg(1).target;
-    //std::cout << argValue<<std::endl;
-    std::string value = std::to_string(argValue);
-    this->asmcode.mov(asmRegister::eax, value);
+    // int argValue = q.getArg(1).target;
+    // //std::cout << argValue<<std::endl;
+    // std::string value = std::to_string(argValue);
+    int varOffset = q.getArg(1).var->getOffset();
+    std::string varEbpOffset = this->asmcode.generateVar(varOffset);
+    this->asmcode.mov(asmRegister::eax, varEbpOffset);
     this->asmcode.generateUnaryInstructor(ASM_CALL, "print_int_i");
 }
 
