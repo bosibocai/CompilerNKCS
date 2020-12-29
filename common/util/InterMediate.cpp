@@ -503,6 +503,8 @@ SymbolTable *InterMediate::GenerateStmt(StmtASTNode *node, SymbolTable *symbolTa
     {
         Symbol *arg1 = symbolTable->findSymbolfromRoot(p->getContent());
         temp = new Quad(OpCode::PRINT, arg1, result);
+        //std::cout<< arg1.
+        //std::cout<<"这里是bug点"<<std::endl;
     }
     else if (p->getNodeType() == ASTNodeType::op)
     {

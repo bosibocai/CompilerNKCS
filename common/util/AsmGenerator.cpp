@@ -554,30 +554,15 @@ void AsmGenerator::generateReturn(Quad& q) {
     //     this->generateEndFunction(q);
     //     return;
     // }
-    int flag = q.getFlag();
-    if (flag == 7) {
-        Symbol* s = q.getArg(1).var;
-        std::string name = s->getName();
-        std::cout<< " generate return" << std::endl;
-        if (name[0] == 'T') {
-            asmRegister reg = this->findRegister(name);
-            this->releaseRegister(reg);
-            this->asmcode.mov(asmRegister::eax, reg);
-        } else {
-            int offset = s->getOffset();
-            std::string varEbpOffset = this->asmcode.generateVar(offset);
-            this->asmcode.mov(asmRegister::eax, varEbpOffset);
-        }
-    } else {
-        int value = q.getArg(1).target;
-        this->asmcode.mov(asmRegister::eax, std::to_string(value));
-    }
+    this->asmcode.pop(asmRegister::ecx);
+    this->asmcode.pop(asmRegister::ebx);
     this->asmcode.addCode(ASM_LEAVE);
     this->asmcode.addCode(ASM_RET);
 }
 
 void AsmGenerator::generatePrint(Quad& q) {
     int argValue = q.getArg(1).target;
+    //std::cout << argValue<<std::endl;
     std::string value = std::to_string(argValue);
     this->asmcode.mov(asmRegister::eax, value);
     this->asmcode.generateUnaryInstructor(ASM_CALL, "print_int_i");
@@ -1052,28 +1037,28 @@ void AsmGenerator::generateAssignArray(Quad& q) {
     }
 }
 
-void AsmGenerator::preSetLabel() {
-    std::vector<Quad> quad;
-    int labelNumber = 0;
-    for (size_t i = 0; i < quads.size(); i++) {
-        OpCode opcode = quads[i].getOpCode();
-        if (this->isJumpQuad(opcode)) {
-            int lineNum = quads[i].getArg(3).target;
-            if (labelMap.count(lineNum) == 0) {
-                labelMap[lineNum] = labelNumber;
-                labelNumber++;
-            }
-        }
-    }
-    for (size_t i = 0; i < quads.size(); i++) {
-        if (labelMap.count(i) > 0) {
-            Quad q(OpCode::LABEL, labelMap[i], (Symbol*)NULL, (Symbol*)NULL);
-            quad.push_back(q);
-        }
-        quad.push_back(quads[i]);
-    }
-    quads=quad;
-}
+// void AsmGenerator::preSetLabel() {
+//     std::vector<Quad> quad;
+//     int labelNumber = 0;
+//     for (size_t i = 0; i < quads.size(); i++) {
+//         OpCode opcode = quads[i].getOpCode();
+//         if (this->isJumpQuad(opcode)) {
+//             int lineNum = quads[i].getArg(3).target;
+//             if (labelMap.count(lineNum) == 0) {
+//                 labelMap[lineNum] = labelNumber;
+//                 labelNumber++;
+//             }
+//         }
+//     }
+//     for (size_t i = 0; i < quads.size(); i++) {
+//         if (labelMap.count(i) > 0) {
+//             Quad q(OpCode::LABEL, labelMap[i], (Symbol*)NULL, (Symbol*)NULL);
+//             quad.push_back(q);
+//         }
+//         quad.push_back(quads[i]);
+//     }
+//     quads=quad;
+// }
 
 bool AsmGenerator::isJumpQuad(OpCode opcode) {
     return opcode == OpCode::JUMP || opcode == OpCode::JUMP_SMALL || opcode == OpCode::JUMP_EQ_SMALL ||
