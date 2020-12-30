@@ -17,12 +17,7 @@
 ;   putchar() function gets its argument from the
 ;   the value of EAX, not the stack.
 
-;
-; NASM（NetWide Assembler）是可移植性高的80x86汇编器，支持多种目标文件格式。
-;
-;预处理
-;单行定义宏
-;
+
 %define NL 10
 %define CF_MASK 00000001h
 %define PF_MASK 00000004h
@@ -35,9 +30,6 @@
 
 ;
 ; Linux C doesn't put underscores on labels
-;
-;
-;宏测试
 ;
 %ifdef ELF_TYPE
   %define _scanf   scanf
@@ -137,6 +129,22 @@ read_int_i:
 	popf
 	popa
 	mov	eax, [ebp-4]
+	leave
+	ret
+
+	printf:
+	enter	0,0
+	pusha
+	pushf
+
+	push	eax
+	push	dword int_format
+	call	_printf
+	pop	ecx
+	pop	ecx
+
+	popf
+	popa
 	leave
 	ret
 
