@@ -34,10 +34,10 @@ loop_test: $(BUILDFOLDER)/test/loop_test.c
 	$(CC) -o $(BUILDFOLDER)/loop_test $(BUILDFOLDER)/loop_test.o $(BUILDFOLDER)/io/asm_io.o -m32
 
 
-print_test: $(BUILDFOLDER)/test/print_test.c
-	$(PROGRAM) $(BUILDFOLDER)/test/print_test.c
-	$(NASM) -f elf $(BUILDFOLDER)/test/print_test.asm -o $(BUILDFOLDER)/print_test.o
-	$(CC) -o $(BUILDFOLDER)/print_test $(BUILDFOLDER)/print_test.o io/asm_io.o -m32
+point_test: $(BUILDFOLDER)/test/point_test.c
+	$(PROGRAM) $(BUILDFOLDER)/test/point_test.c
+	$(NASM) -f elf $(BUILDFOLDER)/test/point_test.asm -o $(BUILDFOLDER)/point_test.o
+	$(CC) -o $(BUILDFOLDER)/point_test $(BUILDFOLDER)/point_test.o io/asm_io.o -m32
 
 simple: $(BUILDFOLDER)/test/simple.c
 	$(PROGRAM) $(BUILDFOLDER)/test/simple.c
