@@ -568,6 +568,9 @@ void AsmGenerator::generatePrint(Quad& q) {
     std::string varEbpOffset = this->asmcode.generateVar(varOffset);
     this->asmcode.mov(asmRegister::eax, varEbpOffset);
     this->asmcode.generateUnaryInstructor(ASM_CALL, "print_int_i");
+    this->asmcode.mov(asmRegister::eax, varEbpOffset);
+    this->asmcode.addCode(ASM_LEAVE);
+    this->asmcode.addCode(ASM_RET);
 }
 
 // void AsmGenerator::generateEndFunction(Quad& q) {
